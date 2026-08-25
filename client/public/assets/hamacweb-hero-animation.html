@@ -1,0 +1,2050 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HamacWeb — hero animation (standalone reference for Ahmed)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* The 3 variables this fragment inherits from the site shell.
+     Included here so the file runs on its own, with no build step. */
+  :root{
+    --ease:cubic-bezier(.22,1,.36,1);
+    --f-sans:'Instrument Sans','Segoe UI',sans-serif;
+    --f-mono:'Spline Sans Mono','SFMono-Regular',Consolas,monospace;
+  }
+  html,body{margin:0;padding:0;background:#050906;font-family:var(--f-sans);}
+</style>
+</head>
+<body>
+<!-- meta nom="Hero HamacWeb : composition Attio (compte au centre, spécialiste en satellites)" ideal="hamacweb.com : le produit démontré, structure clonée d'Attio puis re-skinnée" niveau="avance" -->
+<style>
+  #h-hero{
+    --hw-encre:#0C2B1C;
+    --hw-txt:#33523F;
+    --hw-gris:#5C7A67;
+    --hw-gris-2:#8CA394;
+    --hw-ligne:rgba(12,43,28,.10);
+    --hw-ligne-2:rgba(12,43,28,.07);
+    --hw-carte:#FDFEFC;
+    --hw-panneau:#F6FAF5;
+    --hw-vert:#0E9F63;
+    --hw-vert-fonce:#0B7A4D;
+    --hw-vert-doux:rgba(14,159,99,.12);
+    --hw-lime:#C6F26E;
+    --hw-nuit:#0D1712;
+    /* Shell Linear (21 août) : fond vert quasi noir, hiérarchie 4 niveaux, traits blancs translucides */
+    --hw-fond:#050906;
+    --hw-t1:#F7F8F5;
+    --hw-t2:#B4C0B6;
+    --hw-t3:#8A9890;
+    --hw-vitre:rgba(255,255,255,.05);
+    --hw-vitre-2:rgba(255,255,255,.09);
+    --hw-trait:rgba(255,255,255,.08);
+    --hw-trait-2:rgba(255,255,255,.15);
+    position:relative;
+    background:var(--hw-fond);
+    color:var(--hw-t1);
+    font-family:'Inter','Instrument Sans',var(--f-sans);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  @keyframes hw-in{ from{ opacity:0; transform:translateY(4px); } }
+  @keyframes hw-fen-in{ from{ opacity:0; transform:translateY(12px); } }
+
+  /* ── Bannière plateforme privée (keyline Linear, pas de bloc plein) ── */
+  #h-hero .hw-banniere{
+    position:relative;
+    background:transparent; color:var(--hw-t2);
+    border-bottom:1px solid var(--hw-trait);
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    min-height:42px; padding:8px 48px;
+    font-size:13px; font-weight:510; letter-spacing:-.005em;
+  }
+  #h-hero .hw-banniere b{ font-weight:590; color:var(--hw-lime); }
+  #h-hero .hw-ban-txt{ white-space:nowrap; }
+  #h-hero .hw-banniere svg{ opacity:.9; }
+
+  /* ── Nav ── */
+  #h-hero .hw-nav{
+    display:flex; align-items:center; gap:8px;
+    max-width:1560px; margin-inline:auto;
+    padding:12px 28px; min-height:66px;
+  }
+  #h-hero .hw-logo{
+    position:relative;
+    display:inline-flex; align-items:center;
+    font-size:20px; font-weight:680; letter-spacing:-.022em; color:var(--hw-t1);
+    margin-right:26px; white-space:nowrap;
+  }
+  #h-hero .hw-logo b{ color:var(--hw-t1); font-weight:680; }
+  #h-hero .hw-logo svg{
+    position:absolute; left:1px; bottom:-4px; width:68%; height:6px;
+    overflow:visible; pointer-events:none;
+  }
+  #h-hero .hw-logo path{
+    fill:none; stroke:var(--hw-lime); stroke-width:1.5;
+    stroke-linecap:round; vector-effect:non-scaling-stroke;
+  }
+  #h-hero .hw-liens{ display:flex; align-items:center; gap:4px; list-style:none; margin:0; padding:0; }
+  #h-hero .hw-liens li{
+    font-size:14.5px; font-weight:510; color:var(--hw-t3);
+    padding:8px 12px; border-radius:8px; white-space:nowrap;
+    transition:color .16s cubic-bezier(.25,.46,.45,.94);
+  }
+  #h-hero .hw-liens li:hover{ color:var(--hw-t1); }
+  #h-hero .hw-nav-droite{ margin-left:auto; display:flex; align-items:center; gap:10px; }
+  #h-hero .hw-btn-2{
+    font-size:14px; font-weight:510; color:var(--hw-t1);
+    border:0; border-radius:9999px; background:var(--hw-vitre);
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    padding:9px 16px; white-space:nowrap;
+    transition:background-color .16s cubic-bezier(.25,.46,.45,.94);
+  }
+  #h-hero .hw-btn-2:hover{ background:var(--hw-vitre-2); }
+  #h-hero .hw-btn-1{
+    font-size:14px; font-weight:590; color:var(--hw-encre);
+    background:var(--hw-lime); border-radius:9999px;
+    padding:10px 16px; white-space:nowrap;
+    transition:filter .16s cubic-bezier(.25,.46,.45,.94);
+  }
+  #h-hero .hw-btn-1:hover{ filter:brightness(1.12); }
+
+  /* ── L'entête : la promesse au-dessus de la scène ── */
+  #h-hero .hw-entete{
+    max-width:980px; margin-inline:auto; text-align:center;
+    padding:clamp(40px,5vw,64px) 24px 8px;
+  }
+  #h-hero .hw-entete > *{ animation:hw-in .55s var(--ease) backwards; }
+  #h-hero .hw-entete > *:nth-child(1){ animation-delay:.02s; }
+  #h-hero .hw-entete > *:nth-child(2){ animation-delay:.09s; }
+  #h-hero .hw-entete > *:nth-child(3){ animation-delay:.16s; }
+  #h-hero .hw-entete > *:nth-child(4){ animation-delay:.23s; }
+  #h-hero .hw-sur{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:inherit; font-size:13.5px; font-weight:510;
+    letter-spacing:-.005em; color:var(--hw-t2);
+    background:var(--hw-vitre); border:1px solid var(--hw-trait);
+    border-radius:9999px; padding:5px 14px; min-height:30px;
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    margin:0 0 28px;
+  }
+  #h-hero .hw-sur svg{ color:var(--hw-t3); }
+  #h-hero h1{
+    font-size:clamp(2.6rem, 4.8vw + .6rem, 4.5rem);
+    line-height:1.0; letter-spacing:-.022em; font-weight:590;
+    color:var(--hw-t1);
+    margin:0 0 22px;
+  }
+  #h-hero h1 em{ font-style:normal; color:var(--hw-lime); }
+  #h-hero .hw-accent{ position:relative; display:inline-block; }
+  #h-hero .hw-accent svg{
+    position:absolute; left:0; bottom:-.13em;
+    width:100%; height:.2em; overflow:visible; pointer-events:none;
+  }
+  #h-hero .hw-accent path{
+    fill:none; stroke:var(--hw-lime); stroke-width:2.5;
+    stroke-linecap:round; vector-effect:non-scaling-stroke;
+    stroke-dasharray:100; stroke-dashoffset:100;
+    animation:hw-trace .8s var(--ease) .5s forwards;
+  }
+  @keyframes hw-trace{ to{ stroke-dashoffset:0; } }
+  #h-hero .hw-lede{
+    font-size:17px; line-height:1.6; letter-spacing:-.011em; color:var(--hw-t2);
+    max-width:46ch; margin:0 auto 32px;
+  }
+  #h-hero .hw-lede strong{ color:var(--hw-t1); font-weight:590; }
+  #h-hero .hw-actions{ display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; }
+  #h-hero .hw-cta-1{
+    appearance:none; border:0; cursor:pointer; font-family:inherit;
+    font-size:15px; font-weight:590; min-height:44px; padding:0 22px;
+    border-radius:9999px; display:inline-flex; align-items:center; justify-content:center;
+    background:var(--hw-lime); color:var(--hw-encre);
+    transition:.16s cubic-bezier(.25,.46,.45,.94);
+    transition-property:filter, transform, background-color;
+  }
+  #h-hero .hw-cta-1:hover{ filter:brightness(1.12); }
+  #h-hero .hw-cta-1:active{ transform:scale(.97); filter:brightness(.98); }
+  #h-hero .hw-cta-2{
+    appearance:none; border:0; cursor:pointer; font-family:inherit;
+    font-size:15px; font-weight:510; min-height:44px; padding:0 20px;
+    border-radius:9999px; display:inline-flex; align-items:center; gap:8px;
+    background:var(--hw-vitre); color:var(--hw-t1);
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    transition:.16s cubic-bezier(.25,.46,.45,.94);
+    transition-property:background-color, transform;
+  }
+  #h-hero .hw-cta-2:hover{ background:var(--hw-vitre-2); }
+  #h-hero .hw-cta-2:active{ transform:scale(.97); }
+  #h-hero button:focus-visible{ outline:2px solid var(--hw-lime); outline-offset:3px; }
+
+  /* ── La scène ── */
+  #h-hero .hw-scene{
+    position:relative;
+    max-width:1560px; margin-inline:auto;
+    height:884px;
+    padding:56px 28px 0;
+    animation:hw-in .7s var(--ease) .28s backwards;
+  }
+  #h-hero .hw-scene::before{
+    content:""; position:absolute; left:50%; top:16px; z-index:0;
+    transform:translateX(-50%);
+    width:min(1360px, 96%); height:840px;
+    background:
+      radial-gradient(42% 34% at 50% 30%, rgba(46,204,143,.24), transparent 70%),
+      radial-gradient(30% 26% at 68% 60%, rgba(198,242,110,.12), transparent 66%),
+      radial-gradient(28% 24% at 30% 64%, rgba(14,159,99,.16), transparent 64%);
+    filter:blur(80px);
+    pointer-events:none;
+  }
+
+  /* ── La fenêtre : le compte ── */
+  #h-hero .hw-fenetre{
+    position:absolute; left:0; right:0; margin-inline:auto; top:56px;
+    width:min(1180px, 94%);
+    background:var(--hw-carte);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:12px;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,.35),
+      0 24px 60px -20px rgba(0,0,0,.55),
+      0 90px 180px -40px rgba(0,0,0,.6);
+    display:flex; flex-direction:column;
+    height:772px; overflow:hidden;
+    letter-spacing:-.008em;
+    animation:hw-fen-in .95s var(--ease) .32s backwards;
+    font-family:'Inter','Instrument Sans','Segoe UI',sans-serif;
+    --hw-txt:#3D4A42; --hw-gris:#68746C; --hw-gris-2:#99A39C;
+    --hw-ligne:rgba(16,27,20,.11); --hw-ligne-2:rgba(16,27,20,.065);
+    color:#1A241D;
+  }
+
+  /* Barre de titre pleine largeur (comme la vraie) */
+  #h-hero .hw-titre-f{
+    display:flex; align-items:center; position:relative;
+    padding:9px 14px; background:linear-gradient(180deg, #F7F9F7, #F1F4F1);
+    border-bottom:1px solid var(--hw-ligne-2);
+    border-radius:12px 12px 0 0;
+  }
+  #h-hero .hw-url{
+    position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:500; letter-spacing:.01em; color:var(--hw-gris);
+    background:#fff; border:1px solid var(--hw-ligne-2); border-radius:7px;
+    padding:4px 14px;
+    box-shadow:0 1px 2px rgba(16,27,20,.03);
+  }
+  #h-hero .hw-url svg{ color:var(--hw-vert); flex:none; }
+  #h-hero .hw-dots{ display:flex; gap:6px; }
+  #h-hero .hw-dots i{ width:10px; height:10px; border-radius:50%; }
+  #h-hero .hw-titre-f .hw-dots i:nth-child(1){ background:#E8877E; }
+  #h-hero .hw-titre-f .hw-dots i:nth-child(2){ background:#ECC36B; }
+  #h-hero .hw-titre-f .hw-dots i:nth-child(3){ background:#7FC68E; }
+  #h-hero .hw-corps{
+    display:grid; grid-template-columns:252px minmax(0,1fr) 260px;
+    flex:1; min-height:0;
+    position:relative;
+  }
+
+  /* Sidebar : gris doux contre le blanc du contenu */
+  #h-hero .hw-side{
+    background:#FAFBFA;
+    border-right:1px solid #ECEFEC;
+    padding:10px 10px 14px;
+    display:flex; flex-direction:column; gap:1px;
+    font-size:13.5px; font-weight:500; color:var(--hw-txt);
+    min-height:0; overflow:hidden;
+  }
+  #h-hero .hw-espace{
+    display:flex; align-items:center; gap:8px;
+    padding:4px 6px 10px; font-weight:600; font-size:13.5px; color:var(--hw-encre);
+  }
+  #h-hero .hw-espace .hw-cube{
+    width:22px; height:22px; border-radius:6px; background:var(--hw-encre);
+    color:var(--hw-lime); display:grid; place-items:center; font-size:12px; font-weight:700; flex:none;
+  }
+  #h-hero .hw-espace svg{ color:var(--hw-gris-2); }
+  #h-hero .hw-espace .hw-panneau-ico{ margin-left:auto; }
+  #h-hero .hw-recherche{ display:flex; gap:6px; margin:0 2px 10px; }
+  #h-hero .hw-rapide{
+    flex:1; display:flex; align-items:center; gap:7px;
+    background:var(--hw-carte);
+    border:1px solid var(--hw-ligne); border-radius:8px;
+    padding:6px 9px;
+    color:var(--hw-gris); font-size:12.5px;
+    box-shadow:0 1px 2px rgba(12,43,28,.03);
+  }
+  #h-hero .hw-rapide svg{ color:var(--hw-vert-fonce); flex:none; }
+  #h-hero .hw-loupe{
+    width:30px; display:grid; place-items:center; flex:none;
+    background:var(--hw-carte);
+    border:1px solid var(--hw-ligne); border-radius:8px;
+    color:var(--hw-gris-2);
+    box-shadow:0 1px 2px rgba(12,43,28,.03);
+  }
+  #h-hero .hw-item{
+    display:flex; align-items:center; gap:8px;
+    padding:4px 8px; min-height:28px; border-radius:7px; white-space:nowrap;
+  }
+  #h-hero .hw-item svg{ color:var(--hw-gris-2); flex:none; }
+  #h-hero .hw-item{ color:#242F27; }
+  #h-hero .hw-item.est-actif{ background:rgba(16,27,20,.07); color:#141D17; font-weight:560; }
+  #h-hero .hw-item.est-sous{ padding-left:27px; font-size:13px; }
+  #h-hero .hw-item .hw-badge{
+    margin-left:auto; font-style:normal;
+    font-family:var(--f-mono); font-size:9px; font-weight:500;
+    background:var(--hw-vert-doux); color:var(--hw-vert-fonce);
+    border-radius:999px; padding:2px 7px;
+  }
+  #h-hero .hw-groupe{
+    display:flex; align-items:center; gap:5px;
+    padding:9px 8px 3px; font-size:11.5px; font-weight:500; color:var(--hw-gris-2);
+  }
+  #h-hero .hw-groupe svg{ flex:none; }
+  #h-hero .hw-item.est-futur{ color:var(--hw-gris); }
+  #h-hero .hw-item.est-futur svg{ color:var(--hw-gris-2); }
+  #h-hero .hw-badge-futur{
+    margin-left:auto; font-style:normal;
+    font-family:var(--f-mono); font-size:8.5px; font-weight:500;
+    letter-spacing:.04em;
+    background:rgba(198,242,110,.5); color:#3A5220;
+    border-radius:999px; padding:2px 6px;
+  }
+  #h-hero .hw-ico-vert{ color:var(--hw-vert) !important; }
+
+  /* Zone principale : blanc, comme la vraie app */
+  #h-hero .hw-main{ display:flex; flex-direction:column; min-width:0; background:#FEFEFD; }
+  #h-hero .hw-chemin{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 16px; border-bottom:1px solid var(--hw-ligne-2);
+    font-size:13.5px; min-height:46px;
+  }
+  #h-hero .hw-chemin .hw-fil{ display:flex; align-items:center; gap:7px; color:var(--hw-gris); white-space:nowrap; }
+  #h-hero .hw-chemin .hw-fil strong{ color:var(--hw-encre); font-weight:600; }
+  #h-hero .hw-chemin .hw-fil svg{ color:var(--hw-gris-2); flex:none; }
+  #h-hero .hw-chemin-droite{ margin-left:auto; display:flex; align-items:center; gap:10px; }
+  #h-hero .hw-avatars{ display:flex; align-items:center; }
+  #h-hero .hw-avatars i{
+    width:22px; height:22px; border-radius:50%; border:2px solid var(--hw-carte);
+    display:grid; place-items:center; font-style:normal;
+    font-size:9px; font-weight:600; color:#fff; margin-left:-6px;
+  }
+  #h-hero .hw-avatars i:nth-child(1){ background:#E8862B; margin-left:0; }
+  #h-hero .hw-avatars i:nth-child(2){ background:linear-gradient(140deg, #12AC6E, #0B7A4D); }
+  #h-hero .hw-ecrire-av{
+    width:18px; height:18px; border-radius:50%; flex:none;
+    background:#E2F3EC; color:#0B7A4D; display:grid; place-items:center;
+    box-shadow:inset 0 0 0 1px rgba(11,122,77,.16);
+  }
+  #h-hero .hw-sep-v{ width:1px; height:16px; background:var(--hw-ligne); }
+  #h-hero .hw-mini-ico{ color:var(--hw-gris-2); display:grid; place-items:center; }
+  #h-hero .hw-ecrire{
+    display:inline-flex; align-items:center; gap:6px;
+    border:1px solid var(--hw-ligne); border-radius:9px;
+    padding:6px 11px; font-size:13px; font-weight:500; color:var(--hw-txt);
+    background:var(--hw-carte);
+    box-shadow:0 1px 2px rgba(12,43,28,.03); white-space:nowrap;
+  }
+  #h-hero .hw-ecrire svg{ color:var(--hw-vert-fonce); }
+  #h-hero .hw-onglets{
+    display:flex; align-items:center; gap:2px;
+    padding:0 16px; border-bottom:1px solid var(--hw-ligne-2); min-height:42px;
+  }
+  #h-hero .hw-onglet{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13px; font-weight:500; color:var(--hw-gris);
+    padding:11px 10px; position:relative; white-space:nowrap;
+  }
+  #h-hero .hw-onglet .hw-nb{ font-size:11.5px; color:var(--hw-gris-2); }
+  #h-hero .hw-onglet.est-actif{ color:var(--hw-encre); }
+  #h-hero .hw-onglet.est-actif::after{
+    content:""; position:absolute; left:8px; right:8px; bottom:-1px;
+    height:2px; background:var(--hw-encre); border-radius:2px;
+  }
+  #h-hero .hw-onglets-droite{ margin-left:auto; display:flex; align-items:center; gap:14px; }
+  #h-hero .hw-live{ display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:500; color:var(--hw-txt); white-space:nowrap; }
+  #h-hero .hw-live .hw-toggle{
+    width:30px; height:17px; border-radius:999px; background:var(--hw-vert); position:relative; flex:none;
+  }
+  #h-hero .hw-live .hw-toggle::after{
+    content:""; position:absolute; right:2px; top:2px;
+    width:13px; height:13px; border-radius:50%; background:#fff;
+    box-shadow:0 1px 2px rgba(0,0,0,.2);
+  }
+  #h-hero .hw-voir{ display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:500; color:var(--hw-txt); white-space:nowrap; }
+
+  /* Le contenu : la vraie demande, le vrai flux */
+  #h-hero .hw-contenu{ flex:1; min-height:0; padding:22px 24px; overflow:hidden; }
+
+  /* Les etapes de la demande */
+  #h-hero .hw-etapes{ display:flex; margin:2px 0 22px; }
+  #h-hero .hw-etape{ flex:1; position:relative; padding:0 12px 0 0; }
+  #h-hero .hw-etape::before{
+    content:""; position:absolute; left:33px; right:9px; top:11px;
+    height:2px; border-radius:2px; background:rgba(16,27,20,.1);
+  }
+  #h-hero .hw-etape.est-fait::before{ background:var(--hw-vert); }
+  #h-hero .hw-etape:last-child{ flex:0 0 auto; padding-right:0; }
+  #h-hero .hw-etape:last-child::before{ display:none; }
+  #h-hero .hw-e-rond{
+    width:24px; height:24px; border-radius:50%; margin-bottom:9px;
+    display:grid; place-items:center; position:relative; z-index:1;
+    background:#FEFEFD; border:1.5px solid rgba(16,27,20,.16); color:#B7BFB9;
+    transition:background .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  #h-hero .hw-etape.est-fait .hw-e-rond{
+    background:var(--hw-vert); border-color:var(--hw-vert); color:#fff;
+    box-shadow:0 0 0 3px rgba(14,159,99,.13);
+  }
+  #h-hero .hw-etape.est-actif .hw-e-rond{
+    border-color:var(--hw-vert); border-width:2px;
+    box-shadow:0 0 0 3px rgba(14,159,99,.13);
+  }
+  /* la coche vit dans les 4 ronds, mais ne s'affiche que sur une étape FAITE */
+  #h-hero .hw-e-rond svg{ opacity:0; transition:opacity .25s var(--ease); }
+  #h-hero .hw-etape.est-fait .hw-e-rond svg{ opacity:1; }
+  #h-hero .hw-etape.est-actif .hw-e-nom{ color:var(--hw-vert-fonce); }
+  #h-hero .hw-e-nom{ margin:0; font-size:13px; font-weight:600; color:#141D17; letter-spacing:-.005em; }
+  #h-hero .hw-etape:not(.est-fait):not(.est-actif) .hw-e-nom{ color:var(--hw-gris); font-weight:500; }
+  #h-hero .hw-e-sous{ margin:2px 0 0; font-size:11px; font-weight:400; color:var(--hw-gris-2); }
+
+  /* L'historique : la preuve que la machine tourne */
+  #h-hero .hw-histo{
+    margin-top:14px;
+    border:1px solid var(--hw-ligne); border-radius:10px; overflow:hidden;
+    background:#FEFEFD;
+  }
+  #h-hero .hw-histo-tete{
+    display:flex; align-items:center; gap:8px;
+    padding:9px 14px; border-bottom:1px solid var(--hw-ligne-2);
+    font-size:11px; font-weight:600; color:var(--hw-gris);
+    text-transform:uppercase; letter-spacing:.05em;
+  }
+  #h-hero .hw-histo-tete svg{ color:var(--hw-vert); }
+  #h-hero .hw-h-ligne{
+    display:flex; align-items:center; gap:12px;
+    padding:9px 14px;
+  }
+  #h-hero .hw-h-ligne + .hw-h-ligne{ border-top:1px solid var(--hw-ligne-2); }
+  #h-hero .hw-h-coche{
+    width:18px; height:18px; border-radius:50%; flex:none;
+    background:var(--hw-vert-doux); color:var(--hw-vert-fonce);
+    display:grid; place-items:center;
+  }
+  #h-hero .hw-h-txt{ min-width:0; }
+  #h-hero .hw-h-txt strong{
+    display:block; font-size:12.5px; font-weight:560; color:#1A241D;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  #h-hero .hw-h-txt span{ display:block; font-size:10.5px; font-weight:400; color:var(--hw-gris-2); margin-top:1px; }
+  #h-hero .hw-h-chip{
+    margin-left:auto; flex:none;
+    font-size:10px; font-weight:600; color:var(--hw-vert-fonce);
+    background:var(--hw-vert-doux); border-radius:999px; padding:3px 9px;
+  }
+
+  /* La carte d'apercu : ta page, prete a approuver */
+  #h-hero .hw-apercu-carte{
+    border:1px solid var(--hw-ligne); border-radius:10px; overflow:hidden;
+    box-shadow:0 1px 2px rgba(12,43,28,.03);
+  }
+  #h-hero .hw-mini-fond{ background:#EDF4EA; padding:16px 18px 0; }
+  #h-hero .hw-mini-site{
+    background:#fff; border:1px solid rgba(12,43,28,.08); border-bottom:0;
+    border-radius:8px 8px 0 0; padding:12px 14px 0; height:172px; overflow:hidden;
+    box-shadow:0 1px 2px rgba(12,43,28,.04);
+  }
+  #h-hero .hw-ms-nav{ display:flex; align-items:center; gap:6px; margin-bottom:12px; }
+  #h-hero .hw-ms-logo{ width:8px; height:8px; border-radius:50%; background:var(--hw-vert); }
+  #h-hero .hw-ms-l{ height:4px; border-radius:2px; background:rgba(12,43,28,.12); }
+  #h-hero .hw-ms-nav .hw-ms-l{ width:26px; }
+  #h-hero .hw-ms-nav .hw-ms-cta{ margin-left:auto; width:38px; height:10px; border-radius:5px; background:var(--hw-encre); }
+  #h-hero .hw-ms-corps{ display:flex; gap:14px; }
+  #h-hero .hw-ms-txt{ flex:1.2; padding-top:6px; }
+  #h-hero .hw-ms-titre{ height:9px; width:86%; border-radius:4px; background:rgba(12,43,28,.5); margin-bottom:5px; }
+  #h-hero .hw-ms-titre.b{ width:62%; margin-bottom:10px; }
+  #h-hero .hw-ms-p{ height:4px; border-radius:2px; background:rgba(12,43,28,.14); margin-bottom:4px; }
+  #h-hero .hw-ms-p.b{ width:78%; }
+  #h-hero .hw-ms-p.c{ width:64%; margin-bottom:10px; }
+  #h-hero .hw-ms-btn{ width:58px; height:14px; border-radius:7px; background:var(--hw-vert); }
+  #h-hero .hw-ms-img{
+    flex:1; border-radius:6px; min-height:104px;
+    background:linear-gradient(150deg, #CDE3CE, #A8C9AC 60%, #86AF8E);
+    position:relative; overflow:hidden;
+  }
+  #h-hero .hw-ms-img::after{
+    content:""; position:absolute; left:12%; right:34%; bottom:-14%; top:42%;
+    border-radius:50% 50% 0 0; background:rgba(12,43,28,.32);
+  }
+  #h-hero .hw-ms-pastille{
+    position:absolute; right:26px; top:28px;
+    background:var(--hw-carte); border:1px solid var(--hw-ligne); border-radius:999px;
+    padding:4px 11px; font-family:var(--f-mono); font-size:9px; font-weight:500;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--hw-vert-fonce);
+    box-shadow:0 1px 2px rgba(12,43,28,.08);
+  }
+  #h-hero .hw-apercu-pied{
+    display:flex; align-items:center; gap:10px;
+    padding:12px 16px; border-top:1px solid var(--hw-ligne-2); background:var(--hw-carte);
+  }
+  #h-hero .hw-apercu-pied .hw-ap-txt strong{ display:block; font-size:13px; font-weight:600; color:var(--hw-encre); }
+  #h-hero .hw-apercu-pied .hw-ap-txt span{ display:block; font-size:11.5px; color:var(--hw-gris); margin-top:1px; }
+  #h-hero .hw-ap-boutons{ margin-left:auto; display:flex; align-items:center; gap:8px; }
+  #h-hero .hw-btn-adj{
+    display:inline-flex; align-items:center;
+    font-size:12.5px; font-weight:560; color:var(--hw-txt);
+    background:var(--hw-carte); border:1px solid var(--hw-ligne); border-radius:8px;
+    padding:0 12px; height:32px; white-space:nowrap;
+    box-shadow:0 1px 2px rgba(12,43,28,.03);
+  }
+  #h-hero .hw-btn-ok{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:600; color:#fff;
+    background:linear-gradient(180deg, #12AC6E, var(--hw-vert));
+    border:1px solid rgba(255,255,255,.24); border-radius:8px;
+    padding:0 13px; height:32px; white-space:nowrap;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(16,27,20,.16), 0 5px 12px -5px rgba(14,159,99,.5);
+  }
+  #h-hero .hw-livraison{
+    display:flex; align-items:center; gap:7px;
+    margin:14px 2px 0; font-size:12px; font-weight:400; color:var(--hw-gris);
+  }
+  #h-hero .hw-livraison svg{ color:var(--hw-gris-2); flex:none; }
+
+  /* Panneau droit : mes demandes */
+  #h-hero .hw-panneau-d{
+    border-left:1px solid #ECEFEC;
+    padding:14px 14px 16px; font-size:12.5px;
+    display:flex; flex-direction:column; gap:2px; min-height:0; overflow:hidden;
+    background:#FEFEFD;
+  }
+  #h-hero .hw-p-titre{ margin:0; font-size:13px; font-weight:600; color:#141D17; padding:2px 4px 10px; }
+  #h-hero .hw-run{
+    display:flex; align-items:center; gap:8px; font-weight:500;
+    padding:7px 8px; border-radius:7px; color:var(--hw-txt); white-space:nowrap;
+  }
+  #h-hero .hw-run.est-actif{ background:rgba(12,43,28,.06); }
+  #h-hero .hw-run .hw-r-etat{ display:grid; place-items:center; flex:none; color:var(--hw-gris-2); }
+  #h-hero .hw-run .hw-r-etat.est-vert{ color:var(--hw-vert); }
+  #h-hero .hw-run .hw-r-quand{ margin-left:auto; font-size:11.5px; font-weight:400; color:var(--hw-gris-2); }
+  #h-hero .hw-p-sous{ margin:0; font-size:11.5px; font-weight:500; color:var(--hw-gris-2); padding:14px 4px 8px; }
+  #h-hero .hw-stats-g{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  #h-hero .hw-stat{
+    border:1px solid var(--hw-ligne); border-radius:9px; padding:9px 10px;
+    display:flex; flex-direction:column; gap:2px; min-width:0;
+  }
+  #h-hero .hw-stat strong{ font-size:16px; font-weight:600; color:var(--hw-encre); font-variant-numeric:tabular-nums; }
+  #h-hero .hw-stat strong small{ font-size:10px; font-weight:500; color:var(--hw-gris); }
+  #h-hero .hw-stat span{ font-size:10.5px; font-weight:400; color:var(--hw-gris); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #h-hero .hw-stat .hw-s-tete{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  #h-hero .hw-stat .hw-s-tete svg{ flex:none; }
+  #h-hero .hw-quota{
+    margin-top:8px; border:1px solid var(--hw-ligne); border-radius:9px;
+    padding:9px 10px; display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  #h-hero .hw-quota span{ font-size:10.5px; font-weight:400; color:var(--hw-gris); }
+  #h-hero .hw-quota strong{ font-size:12.5px; font-weight:600; color:var(--hw-encre); }
+
+  /* ── Satellites : les moments avec ton spécialiste ──
+     ⏸ CACHÉS (site figé : les évolutions passent par SPEC-SITE-V2.md, Ibrahim exécute).
+     La carte hw-appel a déjà le look « session vidéo » amélioré, prête à servir de référence. ── */
+  #h-hero .hw-carte-s{ display:none !important; }
+  #h-hero .hw-carte-s{
+    position:absolute; background:#FEFEFD;
+    font-family:'Inter','Instrument Sans','Segoe UI',sans-serif;
+    border:1px solid var(--hw-ligne); border-radius:12px;
+    box-shadow:0 1px 2px rgba(12,43,28,.05), 0 12px 32px -12px rgba(12,43,28,.14);
+    z-index:3;
+  }
+  #h-hero .hw-carte-s .hw-dots{ padding:10px 12px 6px; }
+  #h-hero .hw-carte-s .hw-dots i{ width:8px; height:8px; }
+
+  /* ① Écrire à ton spécialiste */
+  #h-hero .hw-chat{ left:calc(50% - 818px); top:22px; width:216px; animation:hw-in .6s var(--ease) .5s backwards; }
+  #h-hero .hw-chat .hw-c-canal{
+    margin:0; padding:0 14px 8px; font-size:12.5px; font-weight:600; color:var(--hw-encre);
+    border-bottom:1px solid var(--hw-ligne-2);
+  }
+  #h-hero .hw-chat .hw-c-msg{ display:flex; gap:9px; padding:11px 14px 14px; }
+  #h-hero .hw-chat .hw-c-av{
+    width:26px; height:26px; border-radius:7px; flex:none;
+    background:var(--hw-vert); color:#fff; display:grid; place-items:center;
+    font-size:12px; font-weight:600;
+  }
+  #h-hero .hw-chat p{ margin:0; }
+  #h-hero .hw-chat .hw-c-nom{ font-size:12px; font-weight:600; color:var(--hw-encre); }
+  #h-hero .hw-chat .hw-c-heure{ font-size:10px; color:var(--hw-gris-2); font-weight:400; margin-left:4px; }
+  #h-hero .hw-chat .hw-c-texte{ font-size:12px; color:var(--hw-txt); line-height:1.45; margin-top:2px; }
+
+  /* ② Le chantier (sombre) */
+  #h-hero .hw-chantier{
+    left:calc(50% - 832px); top:600px; width:236px;
+    background:var(--hw-nuit); border-color:var(--hw-nuit);
+    color:#D9E2DB;
+    font-family:var(--f-mono);
+    padding-bottom:12px;
+    animation:hw-in .6s var(--ease) .62s backwards;
+  }
+  #h-hero .hw-chantier .hw-dots i:nth-child(1){ background:#E0564C; }
+  #h-hero .hw-chantier .hw-dots i:nth-child(2){ background:#E8B93D; }
+  #h-hero .hw-chantier .hw-dots i:nth-child(3){ background:#57BC5F; }
+  #h-hero .hw-chantier .hw-t-corps{ padding:4px 13px 0; font-size:10.5px; line-height:1.6; }
+  #h-hero .hw-chantier p{ margin:0 0 10px; }
+  #h-hero .hw-chantier .hw-t-lime{ color:var(--hw-lime); }
+  #h-hero .hw-chantier .hw-t-champ{
+    border:1px solid rgba(250,252,249,.16); border-radius:7px;
+    padding:6px 9px; color:#7E8C82; margin-bottom:10px;
+  }
+  #h-hero .hw-chantier .hw-t-pied{ display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8CA394; margin:0; }
+  #h-hero .hw-chantier .hw-t-pied b{ color:#57BC5F; font-weight:500; }
+
+  /* ③ En appel avec ton spécialiste */
+  /* la carte s'ouvre APRÈS le dézoom de la fenêtre (ref Attio), ordi seulement,
+     posée sur le coin BAS-DROIT de la fenêtre (la zone calme) */
+  #h-hero .hw-appel{
+    left:auto; right:clamp(10px, 2.5vw, 40px); top:600px; width:246px;
+    animation:hw-in .7s var(--ease) 1.6s backwards;
+  }
+  #h-hero .hw-appel .hw-v-titre{ margin:0; padding:0 13px 8px; font-size:12.5px; font-weight:600; color:var(--hw-encre); }
+  #h-hero .hw-appel .hw-v-ecran{
+    position:relative; margin:0 10px; height:142px; border-radius:9px; overflow:hidden;
+    background:
+      radial-gradient(80% 60% at 50% 20%, rgba(255,255,255,.35), transparent 60%),
+      linear-gradient(160deg, #DCE8DC, #B9CCBB 55%, #86A08C);
+  }
+  /* la petite vignette « toi » (coin de l'appel, comme un vrai call) */
+  #h-hero .hw-appel .hw-v-moi{
+    position:absolute; right:7px; bottom:26px;
+    width:52px; height:36px; border-radius:6px;
+    background:linear-gradient(150deg, #4E645A, #2C3B33);
+    border:1.5px solid rgba(255,255,255,.75);
+    box-shadow:0 2px 6px rgba(0,0,0,.25);
+  }
+  #h-hero .hw-appel .hw-v-moi::after{
+    content:""; position:absolute; left:50%; bottom:-4px; transform:translateX(-50%);
+    width:20px; height:20px; border-radius:50% 50% 0 0;
+    background:#748A7C;
+  }
+  #h-hero .hw-appel .hw-v-en-direct::before{ animation:hw-direct 1.6s ease-in-out infinite; }
+  @keyframes hw-direct{ 50%{ opacity:.35; } }
+  #h-hero .hw-appel .hw-v-perso{
+    position:absolute; left:50%; bottom:-10px; transform:translateX(-50%);
+    width:92px; height:88px; border-radius:50% 50% 0 0;
+    background:linear-gradient(180deg, #52685A, #35473C);
+  }
+  #h-hero .hw-appel .hw-v-tete{
+    position:absolute; left:50%; bottom:70px; transform:translateX(-50%);
+    width:40px; height:46px; border-radius:50%;
+    background:#6E8474;
+  }
+  #h-hero .hw-appel .hw-v-en-direct{
+    position:absolute; left:8px; top:8px;
+    display:inline-flex; align-items:center; gap:5px;
+    background:rgba(13,23,18,.72); color:#fff;
+    border-radius:999px; padding:3px 9px;
+    font-family:var(--f-mono); font-size:8.5px; letter-spacing:.08em; text-transform:uppercase;
+  }
+  #h-hero .hw-appel .hw-v-en-direct::before{
+    content:""; width:5px; height:5px; border-radius:50%; background:var(--hw-lime);
+  }
+  #h-hero .hw-appel .hw-v-temps{
+    position:absolute; left:8px; right:8px; bottom:6px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:9px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+  #h-hero .hw-appel .hw-v-barre{
+    position:absolute; left:8px; right:8px; bottom:18px;
+    height:3px; border-radius:2px; background:rgba(255,255,255,.35);
+  }
+  #h-hero .hw-appel .hw-v-barre::after{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:36%;
+    border-radius:2px; background:#fff;
+  }
+  #h-hero .hw-appel .hw-v-onglets{
+    display:flex; gap:2px; padding:9px 10px 0;
+    border-bottom:1px solid var(--hw-ligne-2);
+  }
+  #h-hero .hw-appel .hw-v-onglet{
+    font-size:10.5px; font-weight:500; color:var(--hw-gris);
+    padding:4px 7px 7px; position:relative;
+  }
+  #h-hero .hw-appel .hw-v-onglet.est-actif{ color:var(--hw-encre); }
+  #h-hero .hw-appel .hw-v-onglet.est-actif::after{
+    content:""; position:absolute; left:5px; right:5px; bottom:-1px;
+    height:2px; background:var(--hw-encre); border-radius:2px;
+  }
+  #h-hero .hw-appel .hw-v-ligne{ display:flex; gap:8px; padding:9px 13px 2px; }
+  #h-hero .hw-appel .hw-v-ligne:last-child{ padding-bottom:13px; }
+  #h-hero .hw-appel p{ margin:0; }
+  #h-hero .hw-appel .hw-v-dot{ width:7px; height:7px; border-radius:50%; margin-top:4px; flex:none; }
+  #h-hero .hw-appel .hw-v-dot.est-vert{ background:var(--hw-vert); }
+  #h-hero .hw-appel .hw-v-dot.est-lime{ background:#A8CE54; }
+  #h-hero .hw-appel .hw-v-nom{ font-size:10.5px; font-weight:600; color:var(--hw-encre); }
+  #h-hero .hw-appel .hw-v-min{ font-size:9px; color:var(--hw-gris-2); font-weight:400; margin-left:4px; }
+  #h-hero .hw-appel .hw-v-txt{ font-size:10.5px; color:var(--hw-txt); line-height:1.45; margin-top:1px; }
+
+  /* Profondeur des cartes internes */
+  #h-hero .hw-apercu-carte,
+  #h-hero .hw-histo,
+  #h-hero .hw-graf-carte,
+  #h-hero .hw-st-ligne,
+  #h-hero .hw-st-quoi,
+  #h-hero .hw-ch-guide,
+  #h-hero .hw-ch-rdv{
+    box-shadow:0 1px 2px rgba(16,27,20,.04), 0 10px 24px -12px rgba(16,27,20,.09);
+  }
+  #h-hero .hw-stat, #h-hero .hw-quota{
+    box-shadow:0 1px 2px rgba(16,27,20,.03), 0 6px 14px -8px rgba(16,27,20,.07);
+  }
+  #h-hero .hw-modale-carte{
+    box-shadow:0 2px 4px rgba(16,27,20,.08), 0 34px 80px -18px rgba(16,27,20,.35) !important;
+  }
+
+  /* ── Le film du produit : etats pilotes par JS ── */
+  #h-hero .hw-main{ position:relative; }
+  #h-hero .hw-vue{ display:none; }
+  #h-hero .hw-vue.est-vue{ display:block; }
+  #h-hero .hw-onglets.est-cache{ display:none; }
+
+  /* Curseur factice */
+  #h-hero .hw-curseur{
+    position:absolute; left:0; top:0; z-index:9;
+    width:20px; height:20px; pointer-events:none;
+    opacity:0; transform:translate(60px, 60px);
+    transition:transform .85s cubic-bezier(.3,.9,.35,1), opacity .3s var(--ease);
+    filter:drop-shadow(0 2px 4px rgba(16,27,20,.3));
+  }
+  #h-hero .hw-curseur.est-visible{ opacity:1; }
+
+  /* Modale Nouvelle demande */
+  #h-hero .hw-modale{
+    position:absolute; inset:0; z-index:6;
+    display:grid; place-items:center;
+    background:rgba(16,27,20,.14);
+    opacity:0; visibility:hidden;
+    transition:opacity .3s var(--ease), visibility 0s linear .3s;
+  }
+  #h-hero .hw-modale.est-la{ opacity:1; visibility:visible; transition:opacity .3s var(--ease); }
+  #h-hero .hw-modale-carte{
+    width:min(400px, 86%);
+    background:#FEFEFD; border:1px solid var(--hw-ligne); border-radius:12px;
+    box-shadow:0 1px 2px rgba(16,27,20,.06), 0 24px 60px -16px rgba(16,27,20,.28);
+    padding:16px 16px 14px;
+    transform:translateY(8px) scale(.98);
+    transition:transform .35s var(--ease);
+  }
+  #h-hero .hw-modale.est-la .hw-modale-carte{ transform:translateY(0) scale(1); }
+  #h-hero .hw-modale-titre{ margin:0 0 12px; font-size:13.5px; font-weight:600; color:#141D17; }
+  #h-hero .hw-modale-etq{ margin:0 0 5px; font-size:11px; font-weight:500; color:var(--hw-gris); }
+  #h-hero .hw-choix{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:2px;
+  }
+  #h-hero .hw-case{
+    display:flex; flex-direction:column; align-items:center; gap:7px;
+    border:1px solid var(--hw-ligne); border-radius:9px;
+    padding:11px 6px 10px; text-align:center;
+    font-size:11px; font-weight:500; color:#242F27; line-height:1.25;
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease), transform .15s var(--ease);
+  }
+  #h-hero .hw-case-ico{
+    width:30px; height:30px; border-radius:8px; flex:none;
+    background:#fff; border:1px solid var(--hw-ligne);
+    box-shadow:0 1px 2px rgba(16,27,20,.05);
+    color:var(--hw-vert-fonce);
+    display:grid; place-items:center;
+  }
+  /* La couleur par TYPE (système Attio : chip blanche, l'icône porte la couleur) */
+  #h-hero .t-promo .hw-case-ico{ color:#E8862B; }
+  #h-hero .t-article .hw-case-ico{ color:#3B76E1; }
+  #h-hero .t-equipe .hw-case-ico{ color:#8B5CF6; }
+  #h-hero .t-photos .hw-case-ico{ color:var(--hw-vert); }
+  #h-hero .t-fiche .hw-case-ico{ color:#E5484D; }
+  #h-hero .t-autre .hw-case-ico{ color:var(--hw-gris); }
+  #h-hero .hw-item.fut-courriels svg{ color:#E8862B; }
+  #h-hero .hw-item.fut-resa svg{ color:#3B76E1; }
+  #h-hero .hw-item.fut-boutique svg{ color:#8B5CF6; }
+  #h-hero .sug-photos .hw-st-sugg-ico{ color:var(--hw-vert); }
+  #h-hero .sug-fiche .hw-st-sugg-ico{ color:#E5484D; }
+  #h-hero .hw-case.est-choisi{
+    border-color:var(--hw-vert);
+    box-shadow:0 0 0 3px rgba(14,159,99,.13);
+  }
+  #h-hero .hw-champ-zone{ display:none; }
+  #h-hero .hw-modale.mode-champ .hw-choix{ display:none; }
+  #h-hero .hw-modale.mode-champ .hw-champ-zone{ display:block; }
+  #h-hero .hw-joint{
+    display:flex; align-items:center; gap:9px;
+    border:1.5px dashed rgba(16,27,20,.16); border-radius:9px;
+    padding:9px 12px; margin-top:8px;
+    font-size:11.5px; font-weight:500; color:var(--hw-gris);
+    transition:border-color .25s var(--ease), background .25s var(--ease);
+  }
+  #h-hero .hw-joint svg{ color:var(--hw-gris-2); flex:none; }
+  #h-hero .hw-joint .hw-joint-fichier{ display:none; }
+  #h-hero .hw-joint.a-fichier{
+    border-style:solid; border-color:rgba(14,159,99,.4);
+    background:rgba(14,159,99,.05);
+  }
+  #h-hero .hw-joint.a-fichier .hw-joint-vide{ display:none; }
+  #h-hero .hw-joint.a-fichier .hw-joint-fichier{
+    display:flex; align-items:center; gap:9px; min-width:0;
+    animation:hw-vin .3s var(--ease);
+  }
+  #h-hero .hw-joint-vignette{
+    width:26px; height:26px; border-radius:6px; flex:none;
+    background:linear-gradient(140deg, #CDE3CE, #8FAF93);
+    display:grid; place-items:center; color:#fff;
+  }
+  #h-hero .hw-joint-fichier strong{ font-size:11.5px; font-weight:560; color:#1A241D; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #h-hero .hw-joint-fichier em{ font-style:normal; font-size:10px; color:var(--hw-gris-2); }
+  #h-hero .hw-joint-coche{ margin-left:auto; color:var(--hw-vert) !important; }
+  #h-hero .hw-choix-chip{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; font-weight:600; color:#B4641B; font-style:normal;
+    background:rgba(232,134,43,.15); border-radius:999px; padding:2px 9px;
+  }
+  #h-hero .hw-champ-txt{
+    border:1px solid var(--hw-ligne); border-radius:8px;
+    padding:9px 11px; min-height:58px;
+    font-size:12.5px; line-height:1.5; color:#1A241D;
+    background:#FDFDFC;
+  }
+  #h-hero .hw-caret{
+    display:inline-block; width:1.5px; height:13px; margin-left:1px;
+    background:var(--hw-vert); vertical-align:-2px;
+    animation:hw-caret 1s steps(1) infinite;
+  }
+  @keyframes hw-caret{ 50%{ opacity:0; } }
+  #h-hero .hw-modale-pied{ display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+  #h-hero .hw-btn-envoyer{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:600; color:#fff;
+    background:linear-gradient(180deg, #12AC6E, var(--hw-vert));
+    border:1px solid rgba(255,255,255,.24); border-radius:8px;
+    padding:0 14px; height:32px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(16,27,20,.16);
+    transition:transform .15s var(--ease), filter .15s var(--ease);
+  }
+  #h-hero .hw-btn-gris{
+    display:inline-flex; align-items:center;
+    font-size:12.5px; font-weight:560; color:var(--hw-txt);
+    background:#FEFEFD; border:1px solid var(--hw-ligne); border-radius:8px;
+    padding:0 12px; height:32px;
+  }
+  #h-hero .est-presse{ transform:scale(.96) !important; filter:brightness(.96); }
+
+  /* Revelations pilotees */
+  #h-hero .hw-rev{
+    opacity:0; transform:translateY(7px);
+    transition:opacity .45s var(--ease), transform .45s var(--ease);
+  }
+  #h-hero .hw-rev.est-la{ opacity:1; transform:translateY(0); }
+  #h-hero:not(.hw-anime) .hw-rev{ opacity:1; transform:none; }
+  #h-hero.hw-anime .hw-ms-nav, #h-hero.hw-anime .hw-ms-titre, #h-hero.hw-anime .hw-ms-p,
+  #h-hero.hw-anime .hw-ms-btn, #h-hero.hw-anime .hw-ms-img, #h-hero.hw-anime .hw-ms-pastille{
+    opacity:0; transform:translateY(5px);
+    transition:opacity .4s var(--ease), transform .4s var(--ease);
+  }
+  #h-hero.hw-anime .hw-ms-nav.est-la, #h-hero.hw-anime .hw-ms-titre.est-la, #h-hero.hw-anime .hw-ms-p.est-la,
+  #h-hero.hw-anime .hw-ms-btn.est-la, #h-hero.hw-anime .hw-ms-img.est-la, #h-hero.hw-anime .hw-ms-pastille.est-la{
+    opacity:1; transform:translateY(0);
+  }
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-carte,
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-pied,
+  #h-hero.hw-anime .hw-vue-demande .hw-livraison{
+    opacity:0; transform:translateY(8px);
+    transition:opacity .45s var(--ease), transform .45s var(--ease), max-height .5s var(--ease), margin .5s var(--ease);
+  }
+  /* La carte invisible ne réserve plus son espace : le vide des frames d'attente est mort */
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-carte{ overflow:hidden; }
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-carte:not(.est-la){ max-height:0; margin:0; }
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-carte.est-la{ max-height:560px; }
+  #h-hero:not(.hw-anime) .hw-resume{ display:none; }
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-carte.est-la,
+  #h-hero.hw-anime .hw-vue-demande .hw-apercu-pied.est-la,
+  #h-hero.hw-anime .hw-vue-demande .hw-livraison.est-la{ opacity:1; transform:translateY(0); }
+  #h-hero .hw-etape .hw-e-rond{ transition:background .3s var(--ease), border-color .3s var(--ease); }
+  #h-hero .hw-etape.hw-pop .hw-e-rond{ animation:hw-pop .35s var(--ease); }
+  @keyframes hw-pop{ 50%{ transform:scale(1.25); } }
+  #h-hero .hw-btn-ok.est-approuve{ background:var(--hw-vert-fonce); }
+  #h-hero .hw-contenu{ transition:opacity .3s var(--ease); }
+  #h-hero .hw-contenu.est-efface{ opacity:0; }
+
+  /* Vue Statistiques : l'analyse du mois, en francais */
+  #h-hero .hw-st-tete{ display:flex; align-items:center; gap:10px; margin:2px 0 16px; }
+  #h-hero .hw-st-tete strong{ font-size:15px; font-weight:600; color:#141D17; }
+  #h-hero .hw-st-badge{
+    font-size:10.5px; font-weight:500; color:var(--hw-vert-fonce);
+    background:var(--hw-vert-doux); border-radius:999px; padding:3px 10px;
+  }
+  #h-hero .hw-st-recurrent{
+    margin-left:auto; display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; font-weight:500; color:var(--hw-gris);
+  }
+  #h-hero .hw-st-recurrent svg{ color:var(--hw-gris-2); }
+  #h-hero .hw-st-passes{
+    display:flex; align-items:center; gap:7px;
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    padding:10px 16px; background:#FEFEFD;
+  }
+  #h-hero .hw-st-passes-etq{
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:11px; font-weight:500; color:var(--hw-gris);
+    margin-right:auto;
+  }
+  #h-hero .hw-st-passes-etq svg{ color:var(--hw-gris-2); }
+  #h-hero .hw-st-passe{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; font-weight:500; color:var(--hw-txt);
+    border:1px solid var(--hw-ligne); border-radius:999px; padding:4px 12px;
+    background:#fff;
+    box-shadow:0 1px 2px rgba(16,27,20,.04);
+  }
+  #h-hero .hw-st-passe svg{ color:var(--hw-vert); }
+  #h-hero .hw-st-ligne{
+    display:flex; align-items:center; gap:14px;
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    padding:13px 16px; margin-bottom:10px; background:#FEFEFD;
+  }
+  #h-hero .hw-st-nb{
+    font-size:26px; font-weight:600; color:#141D17; flex:none;
+    font-variant-numeric:tabular-nums; min-width:56px;
+  }
+  #h-hero .hw-st-ico{
+    width:34px; height:34px; border-radius:9px; flex:none;
+    background:var(--hw-vert-doux); color:var(--hw-vert-fonce);
+    display:grid; place-items:center;
+  }
+  #h-hero .hw-st-ligne p{ margin:0; font-size:13px; line-height:1.5; color:var(--hw-txt); }
+  #h-hero .hw-st-ligne p strong{ color:#141D17; font-weight:600; }
+  #h-hero .hw-st-quoi{
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    margin-top:12px; margin-bottom:12px; background:#FEFEFD;
+    overflow:hidden;
+  }
+  #h-hero .hw-st-quoi-tete{
+    display:flex; align-items:center; gap:9px;
+    padding:11px 16px; border-bottom:1px solid var(--hw-ligne-2);
+  }
+  #h-hero .hw-st-quoi-av{
+    width:26px; height:26px; border-radius:50%; flex:none;
+    background:#E2F3EC; color:#0B7A4D;
+    display:block;
+    box-shadow:inset 0 0 0 1px rgba(11,122,77,.16), 0 1px 2px rgba(16,27,20,.08);
+  }
+  #h-hero .hw-st-quoi-titres{ display:flex; flex-direction:column; gap:1px; }
+  #h-hero .hw-st-quoi-titres strong{ font-size:12.5px; font-weight:600; color:#141D17; }
+  #h-hero .hw-st-quoi-titres span{ font-size:11px; color:var(--hw-gris); }
+  #h-hero .hw-st-quoi-nb{
+    margin-left:auto; font-size:10.5px; font-weight:600; color:var(--hw-vert-fonce);
+    background:var(--hw-vert-doux); border-radius:999px; padding:3px 10px;
+  }
+  #h-hero .hw-st-sugg{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 16px;
+  }
+  #h-hero .hw-st-sugg + .hw-st-sugg{ border-top:1px solid var(--hw-ligne-2); }
+  /* La demande en résumé : remplit l'attente (frames repos→envoi), se replie quand l'aperçu arrive */
+  #h-hero .hw-resume{
+    display:flex; align-items:center; gap:12px;
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    padding:11px 16px; margin-bottom:12px; background:#FEFEFD;
+    box-shadow:0 1px 2px rgba(16,27,20,.04), 0 10px 24px -12px rgba(16,27,20,.09);
+  }
+  #h-hero .hw-vue-demande:has(.hw-apercu-carte.est-la) .hw-resume{ display:none; }
+  #h-hero .hw-res-ico{
+    width:30px; height:30px; border-radius:8px; flex:none;
+    background:#fff; border:1px solid var(--hw-ligne);
+    box-shadow:0 1px 2px rgba(16,27,20,.05);
+    color:#E8862B; display:grid; place-items:center;
+  }
+  #h-hero .hw-res-txt{ display:flex; flex-direction:column; gap:1px; min-width:0; }
+  #h-hero .hw-res-txt strong{ font-size:12.5px; font-weight:600; color:#141D17; white-space:nowrap; }
+  #h-hero .hw-res-txt span{ font-size:11.5px; color:var(--hw-gris); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #h-hero .hw-res-joint{
+    margin-left:auto; flex:none; display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; font-weight:500; color:var(--hw-txt);
+    border:1px solid var(--hw-ligne); border-radius:999px; padding:3px 10px; background:#fff;
+  }
+  #h-hero .hw-res-joint svg{ color:var(--hw-gris-2); }
+  #h-hero .hw-res-date{ flex:none; font-size:10.5px; color:var(--hw-gris-2); }
+  #h-hero .hw-st-sugg-ico{
+    width:34px; height:34px; border-radius:9px; flex:none;
+    background:#fff; border:1px solid var(--hw-ligne);
+    box-shadow:0 1px 2px rgba(16,27,20,.05);
+    color:var(--hw-vert-fonce);
+    display:grid; place-items:center;
+  }
+  #h-hero .hw-st-sugg-txt{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  #h-hero .hw-st-sugg-txt strong{ font-size:12.5px; font-weight:600; color:#141D17; }
+  #h-hero .hw-st-sugg-txt span{ font-size:11.5px; color:var(--hw-gris); }
+  #h-hero .hw-st-sugg-btn{
+    margin-left:auto; flex:none;
+    font-size:11.5px; font-weight:500; color:#242F27;
+    background:#fff; border:1px solid var(--hw-ligne); border-radius:8px;
+    padding:6px 12px;
+    box-shadow:0 1px 2px rgba(16,27,20,.05);
+  }
+
+  /* Le graphique de progression : 12 mois de visites */
+  #h-hero .hw-graf-carte{
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    padding:14px 16px 12px; margin-bottom:10px; background:#FEFEFD;
+  }
+  #h-hero .hw-graf-tete{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  #h-hero .hw-graf-tete strong{ font-size:13px; font-weight:600; color:#141D17; }
+  #h-hero .hw-delta{
+    margin-left:auto; display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; font-weight:600; color:var(--hw-vert-fonce);
+    background:var(--hw-vert-doux); border-radius:999px; padding:3px 9px;
+    font-variant-numeric:tabular-nums;
+  }
+  #h-hero .hw-graf-zone{ position:relative; padding-top:26px; }
+  #h-hero .hw-graf{
+    display:flex; align-items:flex-end; gap:7px; height:110px;
+    border-bottom:1px solid var(--hw-ligne);
+  }
+  #h-hero .hw-bar{
+    flex:1; border-radius:4px 4px 2px 2px; min-width:0;
+    background:#E6ECE5;
+    transform-origin:bottom;
+    transition:transform .55s var(--ease);
+  }
+  #h-hero .hw-bar.est-actuel{ background:var(--hw-vert); }
+  #h-hero.hw-anime .hw-graf .hw-bar{ transform:scaleY(0); }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar{ transform:scaleY(1); }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(1){ transition-delay:.0s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(2){ transition-delay:.03s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(3){ transition-delay:.06s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(4){ transition-delay:.09s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(5){ transition-delay:.12s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(6){ transition-delay:.15s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(7){ transition-delay:.18s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(8){ transition-delay:.21s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(9){ transition-delay:.24s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(10){ transition-delay:.27s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(11){ transition-delay:.3s; }
+  #h-hero.hw-anime .hw-graf.est-la .hw-bar:nth-child(12){ transition-delay:.33s; }
+  #h-hero .hw-bulle-nb{
+    position:absolute; right:0; top:-2px;
+    background:var(--hw-encre); color:#F2F7F0;
+    border-radius:7px; padding:3px 9px;
+    font-size:12px; font-weight:600; font-variant-numeric:tabular-nums;
+    opacity:0; transition:opacity .35s var(--ease) .3s;
+  }
+  #h-hero .hw-bulle-nb::after{
+    content:""; position:absolute; right:12px; bottom:-4px;
+    width:8px; height:8px; transform:rotate(45deg);
+    background:var(--hw-encre);
+  }
+  #h-hero .hw-graf.est-la + .hw-bulle-nb, #h-hero:not(.hw-anime) .hw-bulle-nb{ opacity:1; }
+  #h-hero .hw-graf-mois{ display:flex; gap:7px; margin-top:6px; }
+  #h-hero .hw-graf-mois span{
+    flex:1; text-align:center;
+    font-family:var(--f-mono); font-size:8.5px; color:var(--hw-gris-2);
+  }
+  #h-hero .hw-compare{
+    display:flex; gap:8px; margin-top:12px; padding-top:11px;
+    border-top:1px solid var(--hw-ligne-2);
+  }
+  #h-hero .hw-cmp{
+    flex:1; display:flex; flex-direction:column; gap:1px; min-width:0;
+  }
+  #h-hero .hw-cmp span{ font-size:10px; color:var(--hw-gris); white-space:nowrap; }
+  #h-hero .hw-cmp strong{ font-size:13px; font-weight:600; color:#141D17; font-variant-numeric:tabular-nums; }
+  #h-hero .hw-cmp strong small{ font-size:10px; font-weight:600; color:var(--hw-vert-fonce); margin-left:4px; }
+
+  /* Vue Specialiste : le fil de conversation */
+  #h-hero .hw-ch-tete{
+    display:flex; align-items:center; gap:10px;
+    padding:2px 0 14px; margin-bottom:14px;
+    border-bottom:1px solid var(--hw-ligne-2);
+  }
+  #h-hero .hw-ch-tete span.hw-ch-av{
+    width:32px; height:32px; border-radius:50%; flex:none; position:relative;
+    background:#E2F3EC; color:#0B7A4D;
+    display:block; margin:0;
+    box-shadow:inset 0 0 0 1px rgba(11,122,77,.16), 0 1px 2px rgba(16,27,20,.08);
+  }
+  #h-hero .hw-ch-av svg, #h-hero .hw-st-quoi-av svg{
+    display:block; width:100%; height:100%; border-radius:50%;
+  }
+  #h-hero .hw-ch-av::after{
+    content:""; position:absolute; right:-1px; bottom:-1px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--hw-vert); border:2px solid #FEFEFD;
+  }
+  #h-hero .hw-ch-tete strong{ display:block; font-size:13.5px; font-weight:600; color:#141D17; }
+  #h-hero .hw-ch-tete span{ display:block; font-size:11px; color:var(--hw-gris); margin-top:1px; }
+  #h-hero .hw-ch-fil{ display:flex; flex-direction:column; gap:10px; max-width:560px; width:100%; margin-inline:auto; }
+  #h-hero.hw-anime .hw-ch-fil .hw-rev{ display:none; opacity:1; transform:none; }
+  #h-hero.hw-anime .hw-ch-fil .hw-ch-bulle.est-la{ display:block; animation:hw-vin .35s var(--ease); }
+  #h-hero.hw-anime .hw-ch-fil .hw-ch-ecrit.est-la{ display:inline-flex; animation:hw-vin .35s var(--ease); }
+  #h-hero.hw-anime .hw-ch-fil .hw-ch-guide.est-la{ display:flex; animation:hw-vin .35s var(--ease); }
+  @keyframes hw-vin{ from{ opacity:0; transform:translateY(6px); } }
+  #h-hero .hw-caret.est-fini{ display:none; }
+  #h-hero .hw-ch-bulle{
+    padding:10px 13px; border-radius:12px;
+    font-size:13px; line-height:1.5;
+  }
+  #h-hero .hw-ch-bulle.est-toi{
+    align-self:flex-end; max-width:82%;
+    background:var(--hw-encre); color:#F2F7F0;
+    border-bottom-right-radius:4px;
+  }
+  #h-hero .hw-ch-bulle.est-spec{
+    align-self:flex-start; max-width:86%;
+    background:#F4F6F4; color:#1A241D;
+    border-bottom-left-radius:4px;
+  }
+  #h-hero .hw-ch-ecrit{
+    align-self:flex-start; display:inline-flex; gap:4px;
+    background:#F4F6F4; border-radius:12px; border-bottom-left-radius:4px;
+    padding:12px 14px;
+  }
+  #h-hero .hw-ch-ecrit i{
+    width:6px; height:6px; border-radius:50%; background:var(--hw-gris-2);
+    animation:hw-ecrit 1.2s ease-in-out infinite;
+  }
+  #h-hero .hw-ch-ecrit i:nth-child(2){ animation-delay:.15s; }
+  #h-hero .hw-ch-ecrit i:nth-child(3){ animation-delay:.3s; }
+  @keyframes hw-ecrit{ 30%{ transform:translateY(-3px); opacity:.6; } }
+  #h-hero .hw-ch-guide{
+    align-self:flex-start; display:flex; align-items:center; gap:10px;
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    padding:10px 13px; background:#FEFEFD;
+    box-shadow:0 1px 2px rgba(16,27,20,.04);
+  }
+  #h-hero .hw-ch-guide .hw-ch-gico{
+    width:30px; height:30px; border-radius:8px; flex:none;
+    background:var(--hw-vert-doux); color:var(--hw-vert-fonce);
+    display:grid; place-items:center;
+  }
+  #h-hero .hw-ch-guide strong{ display:block; font-size:12.5px; font-weight:600; color:#141D17; }
+  #h-hero .hw-ch-guide span{ display:block; font-size:11px; color:var(--hw-gris); margin-top:1px; }
+  #h-hero .hw-ch-rdv{
+    align-self:flex-start; display:flex; align-items:center; gap:10px;
+    border:1px solid var(--hw-ligne); border-radius:10px;
+    padding:10px 13px; background:#FEFEFD; min-width:0;
+    box-shadow:0 1px 2px rgba(16,27,20,.04);
+  }
+  #h-hero .hw-ch-rdv .hw-ch-gico{
+    width:30px; height:30px; border-radius:8px; flex:none;
+    background:var(--hw-vert-doux); color:var(--hw-vert-fonce);
+    display:grid; place-items:center;
+  }
+  #h-hero .hw-ch-rdv strong{ display:block; font-size:12.5px; font-weight:600; color:#141D17; }
+  #h-hero .hw-ch-rdv span{ display:block; font-size:11px; color:var(--hw-gris); margin-top:1px; }
+  #h-hero .hw-ch-rdv .hw-rdv-btn{
+    margin-left:6px; flex:none;
+    display:inline-flex; align-items:center;
+    font-size:11.5px; font-weight:600; color:#fff;
+    background:linear-gradient(180deg, #12AC6E, var(--hw-vert));
+    border:1px solid rgba(255,255,255,.24); border-radius:8px;
+    padding:0 11px; height:28px; white-space:nowrap;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(16,27,20,.14);
+  }
+  #h-hero.hw-anime .hw-ch-fil .hw-ch-rdv.est-la{ display:flex; animation:hw-vin .35s var(--ease); }
+
+  /* ── Responsive ── */
+  @media (max-width:1420px){
+    #h-hero .hw-chat{ left:12px; }
+    #h-hero .hw-chantier{ left:26px; }
+    #h-hero .hw-appel{ left:auto; right:12px; }
+  }
+  @media (max-width:1180px){
+    #h-hero .hw-corps{ grid-template-columns:244px minmax(0,1fr); }
+    #h-hero .hw-panneau-d{ display:none; }
+    #h-hero .hw-appel{ display:none; }
+  }
+  @media (max-width:900px){
+    #h-hero .hw-liens{ display:none; }
+    #h-hero .hw-chat{ display:none; }
+    #h-hero .hw-chantier{ display:none; }
+    /* UNE grandeur mobile : hauteur FIXE calée sur les états de l'acte 1 (rien ne bouge,
+       rien ne coupe). Le film mobile ne joue QUE l'acte 1 (gate MOBILE dans le JS). */
+    #h-hero .hw-scene{ height:auto; padding-top:28px; padding-bottom:26px; }
+    #h-hero .hw-fenetre{ position:static; height:610px; margin:0 auto; }
+    /* régime : 2 livraisons au lieu de 4, et le bloc se replie pendant l'aperçu */
+    #h-hero .hw-histo > div:nth-of-type(n+3){ display:none; }
+    #h-hero .hw-vue-demande:has(.hw-apercu-carte.est-la) .hw-histo{ display:none; }
+    #h-hero .hw-corps{ grid-template-columns:minmax(0,1fr); }
+    #h-hero .hw-side{ display:none; }
+  }
+  /* Le switch de langue (playbook 24 : pointe vers l'équivalent exact) */
+  #h-hero .hw-lang{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:510; margin-right:4px; }
+  #h-hero .hw-lang b{ color:var(--hw-t1); font-weight:590; }
+  #h-hero .hw-lang a{ color:var(--hw-t3); text-decoration:none; cursor:pointer; transition:color .16s cubic-bezier(.25,.46,.45,.94); }
+  #h-hero .hw-lang a:hover{ color:var(--hw-t1); }
+  #h-hero .hw-lang-sep{ width:1px; height:12px; background:var(--hw-trait-2); }
+
+  /* Régime mobile de la fenêtre (playbook 63 : zéro pouvoir au-dessus de 700px) */
+  @media (max-width:700px){
+    #h-hero .hw-fil-ec, #h-hero .hw-fil-parent, #h-hero .hw-fil-chev, #h-hero .hw-fil-info{ display:none; }
+    #h-hero .hw-mini-ico, #h-hero .hw-sep-v, #h-hero .hw-avatars{ display:none; }
+    #h-hero .hw-ecrire{ padding:5px 10px; font-size:12px; }
+    #h-hero .hw-onglets-droite{ display:none; }
+    #h-hero .hw-e-sous{ display:none; }
+    #h-hero .hw-etapes{ gap:8px; }
+    #h-hero .hw-res-joint, #h-hero .hw-res-date{ display:none; }
+    #h-hero .hw-res-txt span{ white-space:normal; }
+    #h-hero .hw-choix{ grid-template-columns:repeat(2, 1fr); }
+    #h-hero .hw-compare{ flex-wrap:wrap; }
+    #h-hero .hw-cmp{ flex:1 1 40%; }
+    #h-hero .hw-st-sugg{ flex-wrap:wrap; }
+    #h-hero .hw-st-sugg-btn{ margin-left:46px; }
+    #h-hero .hw-st-passes{ flex-wrap:wrap; }
+    #h-hero .hw-st-passes-etq{ width:100%; margin-right:0; }
+  }
+  @media (max-width:560px){
+    #h-hero h1{ font-size:clamp(29px, 8.6vw, 38px); line-height:1.08; }
+    #h-hero .hw-banniere{ font-size:11.5px; padding:8px 20px; }
+    #h-hero .hw-ban-suite{ display:none; }
+    #h-hero .hw-btn-2{ display:none; }
+    #h-hero .hw-actions{ flex-direction:column; align-items:stretch; padding-inline:8px; }
+    #h-hero .hw-cta-1, #h-hero .hw-cta-2{ justify-content:center; }
+    #h-hero .hw-chemin-droite .hw-avatars{ display:none; }
+    #h-hero .hw-onglets-droite .hw-voir{ display:none; }
+    #h-hero .hw-lang b, #h-hero .hw-lang-sep{ display:none; }
+    #h-hero .hw-etapes{ flex-wrap:wrap; gap:10px; }
+    #h-hero .hw-fenetre{ height:740px; }
+  }
+  @media (max-height:1060px){
+    #h-hero .hw-entete{ padding-top:clamp(28px,3.5vw,44px); }
+    #h-hero .hw-sur{ margin-bottom:18px; }
+    #h-hero h1{ font-size:clamp(2.4rem, 4vw + .5rem, 3.6rem); margin-bottom:16px; }
+    #h-hero .hw-lede{ font-size:17px; margin-bottom:22px; max-width:52ch; }
+    #h-hero .hw-scene{ padding-top:34px; }
+    #h-hero .hw-fenetre{ top:34px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #h-hero .hw-fenetre{ transform:none !important; animation:none; }
+    #h-hero .hw-scene{ perspective:none; }
+    #h-hero .hw-entete > *, #h-hero .hw-scene, #h-hero .hw-chat, #h-hero .hw-chantier, #h-hero .hw-appel{ animation:none; }
+    #h-hero .hw-accent path{ animation:none; stroke-dashoffset:0; }
+    #h-hero .hw-cta-1, #h-hero .hw-cta-2{ transition:none; }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet">
+<section id="h-hero" aria-label="HamacWeb : la plateforme qui gère ta présence en ligne">
+  <div class="hw-banniere">
+    <span class="hw-ban-txt">HamacWeb est une <b>plateforme privée</b> <span class="hw-ban-suite">· on entre par demande</span></span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+  </div>
+
+  <nav class="hw-nav" aria-label="Navigation principale">
+    <span class="hw-logo">Hamac<b>Web</b><svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 2C30 9.2 70 9.2 98 2"/></svg></span>
+    <ul class="hw-liens">
+      <li>Comment ça marche</li>
+      <li>La plateforme</li>
+      <li>Tarifs</li>
+      <li>FAQ</li>
+    </ul>
+    <div class="hw-nav-droite">
+      <span class="hw-lang"><b>FR</b><span class="hw-lang-sep"></span><a href="/en/">EN</a></span>
+      <span class="hw-btn-2">Se connecter</span>
+      <span class="hw-btn-1">Demander l'accès</span>
+    </div>
+  </nav>
+
+  <div class="hw-entete">
+    <p class="hw-sur">La plateforme qui gère ta présence en ligne
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </p>
+    <h1>Tu demandes. C'est <em class="hw-accent">fait<svg viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M2 2C30 11 70 11 98 2" pathLength="100"/></svg></em>.</h1>
+    <p class="hw-lede">HamacWeb bâtit ton site et gère ta présence en ligne au complet. Tu écris ce que tu veux dans l'app, ton spécialiste s'en occupe. <strong>T'as plus jamais besoin d'engager personne.</strong></p>
+    <div class="hw-actions">
+      <button type="button" class="hw-cta-1" data-cible="h-cta">Demander l'accès</button>
+      <button type="button" class="hw-cta-2" data-cible="h-produit">Voir comment ça marche</button>
+    </div>
+  </div>
+
+  <div class="hw-scene" aria-hidden="true">
+
+    <div class="hw-fenetre">
+      <div class="hw-titre-f"><span class="hw-dots"><i></i><i></i><i></i></span><span class="hw-url"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>app.hamacweb.com</span></div>
+      <div class="hw-corps">
+        <div class="hw-side">
+          <div class="hw-espace">
+            <span class="hw-cube">G</span>
+            Garage Deschamps
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            <svg class="hw-panneau-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9.5 4v16"/></svg>
+          </div>
+          <div class="hw-recherche">
+            <span class="hw-rapide">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Nouvelle demande
+            </span>
+            <span class="hw-loupe">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+          </div>
+          <span class="hw-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+            Aperçu
+          </span>
+          <span class="hw-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            Mes demandes
+          </span>
+          <span class="hw-item est-sous est-actif">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>
+            En cours
+          </span>
+          <span class="hw-item est-sous">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+            Livrées
+          </span>
+          <span class="hw-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.4 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1Z"/></svg>
+            Boîte de réception
+            <i class="hw-badge">2</i>
+          </span>
+          <span class="hw-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+            Statistiques
+          </span>
+          <span class="hw-groupe">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            Apprendre
+          </span>
+          <span class="hw-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+            Guides
+          </span>
+          <span class="hw-item">
+            <svg class="hw-ico-vert" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.8"/><rect x="17" y="14" width="4" height="6" rx="1.8"/><path d="M21 18v1a3 3 0 0 1-3 3h-4"/></svg>
+            Mon spécialiste
+          </span>
+          <span class="hw-groupe">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            En développement
+          </span>
+          <span class="hw-item est-futur fut-courriels">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="15" height="13" rx="2"/><path d="m2 7 7.5 5L17 7"/><path d="M19.5 2.5 20.3 4.7 22.5 5.5 20.3 6.3 19.5 8.5 18.7 6.3 16.5 5.5 18.7 4.7Z"/></svg>
+            Courriels automatisés
+            <i class="hw-badge-futur">Bientôt</i>
+          </span>
+          <span class="hw-item est-futur fut-resa">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/><path d="m9 15 2 2 4-4"/></svg>
+            Réservations en ligne
+            <i class="hw-badge-futur">Bientôt</i>
+          </span>
+          <span class="hw-item est-futur fut-boutique">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1.5 13.5a1.8 1.8 0 0 1-1.8 2H6.3a1.8 1.8 0 0 1-1.8-2Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+            Ma boutique
+            <i class="hw-badge-futur">Bientôt</i>
+          </span>
+          <span class="hw-groupe">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            Compte
+          </span>
+          <span class="hw-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+            Facturation
+          </span>
+        </div>
+
+        <div class="hw-main">
+          <div class="hw-chemin">
+            <span class="hw-fil">
+              <svg class="hw-fil-ec" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+              <span class="hw-fil-parent">Mes demandes</span>
+              <svg class="hw-fil-chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+              <strong>Page Promo du mois</strong>
+              <svg class="hw-fil-info" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+            </span>
+            <div class="hw-chemin-droite">
+              <span class="hw-avatars"><i>M</i><i>S</i></span>
+              <span class="hw-sep-v"></span>
+              <span class="hw-mini-ico">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+              </span>
+              <span class="hw-ecrire">
+                <span class="hw-ecrire-av"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7.6" r="3.9"/><path d="M12 13.6c-4.5 0-7.8 2.5-8.6 6.1a.95.95 0 0 0 .95 1.15h15.3a.95.95 0 0 0 .95-1.15c-.8-3.6-4.1-6.1-8.6-6.1Z"/></svg></span>
+                Écris à ton spécialiste
+              </span>
+            </div>
+          </div>
+
+          <div class="hw-onglets">
+            <span class="hw-onglet">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              Résumé
+            </span>
+            <span class="hw-onglet est-actif">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+              Suivi <span class="hw-nb">4</span>
+            </span>
+            <span class="hw-onglet">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M19 8v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7Z"/></svg>
+              Fichiers
+            </span>
+            <div class="hw-onglets-droite">
+              <span class="hw-live"><span class="hw-toggle"></span>Site en ligne</span>
+              <span class="hw-voir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 4 14 8-14 8Z"/></svg>
+                Voir mon site
+              </span>
+            </div>
+          </div>
+
+          <div class="hw-contenu">
+            <div class="hw-vue hw-vue-demande est-vue">
+            <div class="hw-etapes">
+              <div class="hw-etape est-fait">
+                <span class="hw-e-rond">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <p class="hw-e-nom">Reçue</p>
+                <p class="hw-e-sous">hier, 14 h</p>
+              </div>
+              <div class="hw-etape est-fait">
+                <span class="hw-e-rond">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <p class="hw-e-nom">En construction</p>
+                <p class="hw-e-sous">par ton spécialiste</p>
+              </div>
+              <div class="hw-etape est-actif">
+                <span class="hw-e-rond">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <p class="hw-e-nom">Aperçu prêt</p>
+                <p class="hw-e-sous">à approuver</p>
+              </div>
+              <div class="hw-etape">
+                <span class="hw-e-rond">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <p class="hw-e-nom">En ligne</p>
+                <p class="hw-e-sous">après ton OK</p>
+              </div>
+            </div>
+
+            <div class="hw-resume">
+              <span class="hw-res-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 10.8 13.2 3.4a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.8c0 .5.2 1 .6 1.4l7.4 7.4a2 2 0 0 0 2.8 0l7.8-7.8a2 2 0 0 0 0-2.8Z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span>
+              <span class="hw-res-txt">
+                <strong>Ta demande</strong>
+                <span>« 15 % sur le changement d'huile ce mois-ci »</span>
+              </span>
+              <span class="hw-res-joint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.4 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>promo-avril.jpg</span>
+              <span class="hw-res-date">hier, 14 h</span>
+            </div>
+
+            <div class="hw-apercu-carte">
+              <div class="hw-mini-fond">
+                <div class="hw-mini-site">
+                  <div class="hw-ms-nav">
+                    <span class="hw-ms-logo"></span>
+                    <span class="hw-ms-l"></span><span class="hw-ms-l"></span><span class="hw-ms-l"></span>
+                    <span class="hw-ms-cta"></span>
+                  </div>
+                  <div class="hw-ms-corps">
+                    <div class="hw-ms-txt">
+                      <div class="hw-ms-titre"></div>
+                      <div class="hw-ms-titre b"></div>
+                      <div class="hw-ms-p"></div>
+                      <div class="hw-ms-p b"></div>
+                      <div class="hw-ms-p c"></div>
+                      <div class="hw-ms-btn"></div>
+                    </div>
+                    <div class="hw-ms-img"></div>
+                  </div>
+                </div>
+                <span class="hw-ms-pastille">Promo du mois</span>
+              </div>
+              <div class="hw-apercu-pied">
+                <div class="hw-ap-txt">
+                  <strong>L'aperçu de ta page est prêt</strong>
+                  <span>Regarde-le, pis dis-nous si c'est comme tu veux.</span>
+                </div>
+                <div class="hw-ap-boutons">
+                  <span class="hw-btn-adj">Demander un ajustement</span>
+                  <span class="hw-btn-ok">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    J'approuve
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <p class="hw-livraison">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>
+              En ligne dès ton OK · au plus tard dans 2 jours ouvrables
+            </p>
+
+            <div class="hw-histo">
+              <p class="hw-histo-tete">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+                Livrées dernièrement
+              </p>
+              <div class="hw-h-ligne">
+                <span class="hw-h-coche"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="hw-h-txt"><strong>Article de blogue : conseils d'automne</strong><span>demandé lundi · en ligne mardi</span></span>
+                <span class="hw-h-chip">En ligne</span>
+              </div>
+              <div class="hw-h-ligne">
+                <span class="hw-h-coche"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="hw-h-txt"><strong>Fiche Google : nouvelles heures d'ouverture</strong><span>demandé lundi · réglé le jour même</span></span>
+                <span class="hw-h-chip">Fait</span>
+              </div>
+              <div class="hw-h-ligne">
+                <span class="hw-h-coche"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="hw-h-txt"><strong>Photos de l'équipe sur la page Accueil</strong><span>demandé il y a 2 semaines · en ligne le lendemain</span></span>
+                <span class="hw-h-chip">En ligne</span>
+              </div>
+              <div class="hw-h-ligne">
+                <span class="hw-h-coche"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="hw-h-txt"><strong>Page Services : les prix d'automne</strong><span>demandé le mois passé · en ligne en 2 jours</span></span>
+                <span class="hw-h-chip">En ligne</span>
+              </div>
+            </div>
+            </div>
+
+            <div class="hw-vue hw-vue-stats" aria-hidden="true">
+              <div class="hw-st-tete hw-rev">
+                <strong>Ton rapport du mois</strong>
+                <span class="hw-st-badge">Août</span>
+                <span class="hw-st-recurrent">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+                  un nouveau chaque mois
+                </span>
+              </div>
+              <div class="hw-graf-carte hw-rev">
+                <div class="hw-graf-tete">
+                  <strong>Visites sur ton site</strong>
+                  <span class="hw-delta">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+                    +15 % vs le mois passé
+                  </span>
+                </div>
+                <div class="hw-graf-zone">
+                  <div class="hw-graf">
+                    <span class="hw-bar" style="height:31%"></span>
+                    <span class="hw-bar" style="height:33%"></span>
+                    <span class="hw-bar" style="height:41%"></span>
+                    <span class="hw-bar" style="height:39%"></span>
+                    <span class="hw-bar" style="height:46%"></span>
+                    <span class="hw-bar" style="height:54%"></span>
+                    <span class="hw-bar" style="height:57%"></span>
+                    <span class="hw-bar" style="height:67%"></span>
+                    <span class="hw-bar" style="height:72%"></span>
+                    <span class="hw-bar" style="height:80%"></span>
+                    <span class="hw-bar" style="height:87%"></span>
+                    <span class="hw-bar est-actuel" style="height:100%"></span>
+                  </div>
+                  <span class="hw-bulle-nb hw-st-nb">312</span>
+                  <div class="hw-graf-mois">
+                    <span>S</span><span>O</span><span>N</span><span>D</span><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span>
+                  </div>
+                </div>
+                <div class="hw-compare">
+                  <div class="hw-cmp"><span>il y a un an</span><strong>96</strong></div>
+                  <div class="hw-cmp"><span>il y a 6 mois</span><strong>168</strong></div>
+                  <div class="hw-cmp"><span>le mois passé</span><strong>271</strong></div>
+                  <div class="hw-cmp"><span>ce mois-ci</span><strong>312<small>en croissance</small></strong></div>
+                </div>
+              </div>
+              <div class="hw-st-ligne hw-rev">
+                <span class="hw-st-ico">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                </span>
+                <p><strong>14 personnes</strong> ont cherché un garage proche sur Google pis sont tombées sur toi.</p>
+              </div>
+              <div class="hw-st-quoi hw-rev">
+                <div class="hw-st-quoi-tete">
+                  <span class="hw-st-quoi-av"><svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><circle cx="16" cy="12.6" r="6.1"/><path d="M16 20.6c-6.8 0-11.3 3.8-12.5 9.2L3.3 32h25.4l-.2-2.2c-1.2-5.4-5.7-9.2-12.5-9.2Z"/></svg></span>
+                  <span class="hw-st-quoi-titres">
+                    <strong>Nos suggestions du mois</strong>
+                    <span>Préparées par ton spécialiste, en regardant tes chiffres</span>
+                  </span>
+                  <span class="hw-st-quoi-nb">2 idées</span>
+                </div>
+                <div class="hw-st-sugg sug-photos">
+                  <span class="hw-st-sugg-ico">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  </span>
+                  <span class="hw-st-sugg-txt">
+                    <strong>Des photos récentes sur ta page Services</strong>
+                    <span>T'amèneraient plus d'appels. On s'en occupe.</span>
+                  </span>
+                  <span class="hw-st-sugg-btn">Dis go</span>
+                </div>
+                <div class="hw-st-sugg sug-fiche">
+                  <span class="hw-st-sugg-ico">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </span>
+                  <span class="hw-st-sugg-txt">
+                    <strong>Tes nouvelles heures sur ta fiche Google</strong>
+                    <span>Une demande, pis c'est réglé.</span>
+                  </span>
+                  <span class="hw-st-sugg-btn">Demander</span>
+                </div>
+              </div>
+              <div class="hw-st-passes hw-rev">
+                <span class="hw-st-passes-etq">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg>
+                  Tes rapports passés
+                </span>
+                <span class="hw-st-passe"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Juillet</span>
+                <span class="hw-st-passe"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Juin</span>
+                <span class="hw-st-passe"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Mai</span>
+              </div>
+            </div>
+
+            <div class="hw-vue hw-vue-chat" aria-hidden="true">
+              <div class="hw-ch-tete">
+                <span class="hw-ch-av"><svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><circle cx="16" cy="12.6" r="6.1"/><path d="M16 20.6c-6.8 0-11.3 3.8-12.5 9.2L3.3 32h25.4l-.2-2.2c-1.2-5.4-5.7-9.2-12.5-9.2Z"/></svg></span>
+                <span><strong>Ton spécialiste</strong><span>Répond en un jour ouvrable</span></span>
+              </div>
+              <div class="hw-ch-fil">
+                <div class="hw-ch-bulle est-toi hw-rev"><span class="hw-tape2"></span><span class="hw-caret"></span></div>
+                <div class="hw-ch-ecrit hw-rev"><i></i><i></i><i></i></div>
+                <div class="hw-ch-bulle est-spec hw-rev">Oui! Tiens, mon guide étape par étape.</div>
+                <div class="hw-ch-guide hw-rev">
+                  <span class="hw-ch-gico">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+                  </span>
+                  <span><strong>Guide · Créer ton compte Instagram</strong><span>préparé pour toi, sans frais</span></span>
+                </div>
+                <div class="hw-ch-bulle est-spec hw-rev">Ou si tu préfères, prends une heure avec moi pis on le fait ensemble.</div>
+                <div class="hw-ch-rdv hw-rev">
+                  <span class="hw-ch-gico">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/></svg>
+                  </span>
+                  <span><strong>Réserver une heure avec ton spécialiste</strong><span>assisté en direct, à l'écran</span></span>
+                  <span class="hw-rdv-btn">Choisir un moment</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="hw-panneau-d">
+          <p class="hw-p-titre">Mes demandes</p>
+          <div class="hw-run est-actif">
+            <span class="hw-r-etat">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>
+            </span>
+            Page Promo du mois
+          </div>
+          <div class="hw-run">
+            <span class="hw-r-etat">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></svg>
+            </span>
+            Photos du local
+            <span class="hw-r-quand">ce matin</span>
+          </div>
+          <div class="hw-run">
+            <span class="hw-r-etat est-vert">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+            </span>
+            Article de blogue
+            <span class="hw-r-quand">mardi</span>
+          </div>
+          <div class="hw-run">
+            <span class="hw-r-etat est-vert">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+            </span>
+            Fiche Google
+            <span class="hw-r-quand">lundi</span>
+          </div>
+          <p class="hw-p-sous">Aperçu du mois</p>
+          <div class="hw-stats-g">
+            <div class="hw-stat">
+              <span class="hw-s-tete"><strong>12</strong>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0E9F63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+              </span>
+              <span>Demandes livrées</span>
+            </div>
+            <div class="hw-stat">
+              <span class="hw-s-tete"><strong>1</strong>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#8CA394" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>
+              </span>
+              <span>En cours</span>
+            </div>
+            <div class="hw-stat">
+              <span class="hw-s-tete"><strong>312</strong>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0E9F63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+              </span>
+              <span>Visites ce mois</span>
+            </div>
+            <div class="hw-stat">
+              <span class="hw-s-tete"><strong>2<small> jours</small></strong>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#8CA394" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+              </span>
+              <span>Délai maximum</span>
+            </div>
+          </div>
+          <div class="hw-quota">
+            <span>demandes ce mois</span>
+            <strong>5 restantes</strong>
+          </div>
+        </div>
+
+          <div class="hw-modale" aria-hidden="true">
+            <div class="hw-modale-carte">
+              <p class="hw-modale-titre">Nouvelle demande</p>
+              <p class="hw-modale-etq">Qu'est-ce qu'on fait pour toi?</p>
+              <div class="hw-choix">
+                <span class="hw-case t-promo">
+                  <span class="hw-case-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 10.8 13.2 3.4a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.8c0 .5.2 1 .6 1.4l7.4 7.4a2 2 0 0 0 2.8 0l7.8-7.8a2 2 0 0 0 0-2.8Z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span>
+                  Promo du mois
+                </span>
+                <span class="hw-case t-article">
+                  <span class="hw-case-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M19 8v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7Z"/><path d="M9 13h6M9 17h4"/></svg></span>
+                  Ajouter un article
+                </span>
+                <span class="hw-case t-equipe">
+                  <span class="hw-case-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5"/><path d="M19 8v6M16 11h6"/></svg></span>
+                  Un membre d'équipe
+                </span>
+                <span class="hw-case t-photos">
+                  <span class="hw-case-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.35-4.35a1.4 1.4 0 0 0-2 0L5 20"/></svg></span>
+                  Changer des photos
+                </span>
+                <span class="hw-case t-fiche">
+                  <span class="hw-case-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                  Ma fiche Google
+                </span>
+                <span class="hw-case t-autre">
+                  <span class="hw-case-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.3 8.5 8.5 0 0 1-3.8-.9L3 20l1.1-5.7a8.3 8.3 0 0 1-.9-3.8A8.38 8.38 0 0 1 11.5 2.2a8.5 8.5 0 0 1 9.5 9.3Z"/></svg></span>
+                  Autre demande
+                </span>
+              </div>
+              <div class="hw-champ-zone">
+                <p class="hw-modale-etq">Ta demande : <b class="hw-choix-chip">Promo du mois</b></p>
+                <div class="hw-champ-txt"><span class="hw-tape"></span><span class="hw-caret"></span></div>
+                <div class="hw-joint">
+                  <span class="hw-joint-vide" style="display:flex;align-items:center;gap:9px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m21.4 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                    Mets ta photo en pièce jointe si t'en as une
+                  </span>
+                  <span class="hw-joint-fichier">
+                    <span class="hw-joint-vignette">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.35-4.35a1.4 1.4 0 0 0-2 0L5 20"/></svg>
+                    </span>
+                    <strong>promo-avril.jpg</strong>
+                    <em>1,2 Mo</em>
+                    <svg class="hw-joint-coche" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  </span>
+                </div>
+              </div>
+              <div class="hw-modale-pied">
+                <span class="hw-btn-gris">Annuler</span>
+                <span class="hw-btn-envoyer">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-11 11"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>
+                  Envoyer
+                </span>
+              </div>
+            </div>
+          </div>
+      </div>
+      <svg class="hw-curseur" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.5 1.5L9 19 5 3Z" fill="#141D17" stroke="#FEFEFD" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div class="hw-carte-s hw-chat">
+      <div class="hw-dots"><i></i><i></i><i></i></div>
+      <p class="hw-c-canal">Écrire à ton spécialiste</p>
+      <div class="hw-c-msg">
+        <span class="hw-c-av">M</span>
+        <div>
+          <p><span class="hw-c-nom">Marc</span><span class="hw-c-heure">10:26</span></p>
+          <p class="hw-c-texte">Peux-tu ajouter la promo du mois sur mon site?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hw-carte-s hw-chantier">
+      <div class="hw-dots"><i></i><i></i><i></i></div>
+      <div class="hw-t-corps">
+        <p>&gt; Ajouter la page Promo du mois</p>
+        <p class="hw-t-lime">≈ En construction… aperçu bientôt prêt</p>
+        <div class="hw-t-champ">&gt;</div>
+        <p class="hw-t-pied">▶▶ <b>ton spécialiste</b> · au travail</p>
+      </div>
+    </div>
+
+    <div class="hw-carte-s hw-appel">
+      <div class="hw-dots"><i></i><i></i><i></i></div>
+      <p class="hw-v-titre">En appel avec ton spécialiste</p>
+      <div class="hw-v-ecran">
+        <span class="hw-v-perso"></span>
+        <span class="hw-v-tete"></span>
+        <span class="hw-v-moi"></span>
+        <span class="hw-v-en-direct">En direct</span>
+        <span class="hw-v-barre"></span>
+        <span class="hw-v-temps"><span>12:40</span><span>30:00</span></span>
+      </div>
+      <div class="hw-v-onglets">
+        <span class="hw-v-onglet">Appel</span>
+        <span class="hw-v-onglet est-actif">Notes</span>
+        <span class="hw-v-onglet">Suivis</span>
+      </div>
+      <div class="hw-v-ligne">
+        <span class="hw-v-dot est-vert"></span>
+        <div>
+          <p><span class="hw-v-nom">Toi</span><span class="hw-v-min">12:02</span></p>
+          <p class="hw-v-txt">Je veux une page pour la promo du mois.</p>
+        </div>
+      </div>
+      <div class="hw-v-ligne">
+        <span class="hw-v-dot est-lime"></span>
+        <div>
+          <p><span class="hw-v-nom">Ton spécialiste</span><span class="hw-v-min">12:04</span></p>
+          <p class="hw-v-txt">Parfait. Je te montre l'aperçu avant que ça parte en ligne.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<script>
+(function () {
+  var root = document.getElementById('h-hero');
+  if (!root) return;
+  var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function aller(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + window.pageYOffset - 76;
+    window.scrollTo({ top: Math.max(0, y), behavior: reduit ? 'auto' : 'smooth' });
+  }
+  Array.prototype.forEach.call(root.querySelectorAll('[data-cible]'), function (b) {
+    b.addEventListener('click', function () { aller(b.getAttribute('data-cible')); });
+  });
+
+  /* ── Le film du produit : 3 actes en boucle ── */
+  if (reduit) return;
+  var fen = root.querySelector('.hw-fenetre');
+  var curseur = root.querySelector('.hw-curseur');
+  var modale = root.querySelector('.hw-modale');
+  var tape = root.querySelector('.hw-tape');
+  var tape2 = root.querySelector('.hw-tape2');
+  var contenu = root.querySelector('.hw-contenu');
+  var onglets = root.querySelector('.hw-onglets');
+  var filStrong = root.querySelector('.hw-fil strong');
+  var etapes = root.querySelectorAll('.hw-etape');
+  var items = root.querySelectorAll('.hw-side .hw-item');
+  var vueDemande = root.querySelector('.hw-vue-demande');
+  var vueStats = root.querySelector('.hw-vue-stats');
+  var vueChat = root.querySelector('.hw-vue-chat');
+  var apercuCarte = root.querySelector('.hw-apercu-carte');
+  var apercuPied = root.querySelector('.hw-apercu-pied');
+  var livraison = root.querySelector('.hw-livraison');
+  var btnOk = root.querySelector('.hw-btn-ok');
+  var btnRapide = root.querySelector('.hw-rapide');
+  var btnEnvoyer = root.querySelector('.hw-btn-envoyer');
+  var btnEcrire = root.querySelector('.hw-ecrire');
+  var morceauxSite = root.querySelectorAll('.hw-ms-nav, .hw-ms-titre, .hw-ms-p, .hw-ms-btn, .hw-ms-img, .hw-ms-pastille');
+  if (!fen || !curseur || !modale || !tape || !contenu || !vueStats || !vueChat) return;
+
+  root.classList.add('hw-anime');
+
+  /* Mode atelier : la page se fige, l'atelier pilote les frames lui-même */
+  if (/[?&]atelier/.test(location.search)) return;
+
+  var TEXTE = "15 % sur le changement d\u2019huile ce mois-ci";
+  var TEXTE2 = "Tu t'y connais-tu en création de compte Instagram?";
+  var minuteries = [];
+  var enMarche = false;
+  var TEMPO = 1.3; /* Louis, 21 août : « va plus lentement la vidéo finale » — 1 = vitesse d'origine */
+  function apres(ms, fn) { minuteries.push(window.setTimeout(fn, ms * TEMPO)); }
+  function toutAnnuler() { minuteries.forEach(clearTimeout); minuteries = []; }
+
+  function bouge(el) {
+    if (!el) return;
+    var f = fen.getBoundingClientRect();
+    var r = el.getBoundingClientRect();
+    if (!r.width) return;
+    curseur.style.transform = 'translate(' + Math.round(r.left - f.left + r.width * 0.55) + 'px,' + Math.round(r.top - f.top + r.height * 0.6) + 'px)';
+  }
+  function presse(el) {
+    if (!el) return;
+    el.classList.add('est-presse');
+    apres(180, function () { el.classList.remove('est-presse'); });
+  }
+  function etape(i, etat) {
+    var e = etapes[i];
+    if (!e) return;
+    e.classList.remove('est-fait', 'est-actif', 'hw-pop');
+    if (etat) e.classList.add(etat, 'hw-pop');
+  }
+  function actif(i) {
+    Array.prototype.forEach.call(items, function (it) { it.classList.remove('est-actif'); });
+    if (items[i]) items[i].classList.add('est-actif');
+  }
+  function vue(v, titre) {
+    [vueDemande, vueStats, vueChat].forEach(function (x) { x.classList.remove('est-vue'); });
+    v.classList.add('est-vue');
+    if (filStrong && titre) filStrong.textContent = titre;
+  }
+  function transition(fn) {
+    contenu.classList.add('est-efface');
+    apres(320, function () { fn(); contenu.classList.remove('est-efface'); });
+  }
+
+  function zero() {
+    contenu.classList.remove('est-efface');
+    tape.textContent = ''; tape2.textContent = '';
+    modale.classList.remove('mode-champ');
+    Array.prototype.forEach.call(root.querySelectorAll('.hw-case'), function (c) { c.classList.remove('est-choisi'); });
+    var j0 = root.querySelector('.hw-joint'); if (j0) j0.classList.remove('a-fichier');
+    Array.prototype.forEach.call(root.querySelectorAll('.hw-caret'), function (c) { c.classList.remove('est-fini'); });
+    var nb = root.querySelector('.hw-st-nb'); if (nb) nb.textContent = '312';
+    var g0 = root.querySelector('.hw-graf'); if (g0) g0.classList.remove('est-la');
+    modale.classList.remove('est-la');
+    ['.hw-apercu-carte', '.hw-apercu-pied', '.hw-livraison'].forEach(function (sel) {
+      var el = root.querySelector(sel); if (el) el.classList.remove('est-la');
+    });
+    btnOk.classList.remove('est-approuve');
+    Array.prototype.forEach.call(morceauxSite, function (m) { m.classList.remove('est-la'); });
+    Array.prototype.forEach.call(root.querySelectorAll('.hw-rev'), function (m) { m.classList.remove('est-la'); });
+    etape(0, 'est-actif'); etape(1, null); etape(2, null); etape(3, null);
+    vue(vueDemande, 'Page Promo du mois');
+    onglets.classList.remove('est-cache');
+    actif(2);
+    curseur.classList.remove('est-visible');
+    curseur.style.transform = 'translate(70px, 90px)';
+  }
+
+  function scenario() {
+    if (!enMarche) return;
+    /* Mobile = UNE grandeur, UN acte (retour Louis 21 août : la fenêtre qui change
+       de taille à chaque acte = trash). L'acte 1 vit entier dans la même vue. */
+    /* The film is embedded in a narrow column, but it must retain the reference's three complete acts. */
+    var MOBILE = false;
+    zero();
+
+    /* ── ACTE 1 : tu demandes, c'est fait ── */
+    apres(600, function () { curseur.classList.add('est-visible'); bouge(btnRapide); });
+    apres(1500, function () { presse(btnRapide); });
+    apres(1750, function () { modale.classList.add('est-la'); curseur.classList.remove('est-visible'); });
+    apres(2450, function () { curseur.classList.add('est-visible'); bouge(root.querySelector('.hw-case')); });
+    apres(3250, function () { var c0 = root.querySelector('.hw-case'); presse(c0); c0.classList.add('est-choisi'); });
+    apres(3700, function () { modale.classList.add('mode-champ'); curseur.classList.remove('est-visible'); });
+    var i = 0;
+    apres(4050, function () {
+      (function tic() {
+        if (!enMarche) return;
+        tape.textContent = TEXTE.slice(0, ++i);
+        if (i < TEXTE.length) minuteries.push(window.setTimeout(tic, (32 + Math.random() * 44) * TEMPO));
+        else { var c = modale.querySelector('.hw-caret'); if (c) c.classList.add('est-fini'); }
+      })();
+    });
+    apres(6100, function () { var jt = root.querySelector('.hw-joint'); if (jt) jt.classList.add('a-fichier'); });
+    apres(6800, function () { curseur.classList.add('est-visible'); bouge(btnEnvoyer); });
+    apres(7650, function () { presse(btnEnvoyer); });
+    apres(7900, function () { modale.classList.remove('est-la'); curseur.classList.remove('est-visible'); });
+    apres(8200, function () { etape(0, 'est-fait'); etape(1, 'est-actif'); });
+    apres(8600, function () { apercuCarte.classList.add('est-la'); });
+    [9000, 9400, 9650, 9900, 10150, 10400, 10700, 10950].forEach(function (t, k) {
+      apres(t, function () { if (morceauxSite[k]) morceauxSite[k].classList.add('est-la'); });
+    });
+    apres(11200, function () { Array.prototype.forEach.call(morceauxSite, function (m) { m.classList.add('est-la'); }); });
+    apres(11700, function () { etape(1, 'est-fait'); etape(2, 'est-actif'); apercuPied.classList.add('est-la'); });
+    apres(12500, function () { curseur.classList.add('est-visible'); bouge(btnOk); });
+    apres(13450, function () { presse(btnOk); });
+    apres(13750, function () { btnOk.classList.add('est-approuve'); curseur.classList.remove('est-visible'); });
+    apres(14200, function () { etape(2, 'est-fait'); etape(3, 'est-actif'); });
+    apres(14800, function () { etape(3, 'est-fait'); livraison.classList.add('est-la'); });
+
+    if (MOBILE) {
+      apres(17600, function () { contenu.classList.add('est-efface'); });
+      apres(18300, function () { scenario(); });
+      return;
+    }
+
+    /* ── ACTE 2 : l'analyse du mois ── */
+    apres(17800, function () { curseur.classList.add('est-visible'); bouge(items[5]); });
+    apres(18750, function () { presse(items[5]); });
+    apres(19000, function () {
+      curseur.classList.remove('est-visible');
+      transition(function () { vue(vueStats, 'Rapport du mois'); onglets.classList.add('est-cache'); actif(5); });
+    });
+    var revStats = vueStats.querySelectorAll('.hw-rev');
+    [19800, 20250, 20750, 21300, 21750].forEach(function (t, k) {
+      apres(t, function () { if (revStats[k]) revStats[k].classList.add('est-la'); });
+    });
+    apres(20500, function () {
+      var g = vueStats.querySelector('.hw-graf');
+      if (g) g.classList.add('est-la');
+    });
+    apres(20250, function () {
+      var nb = root.querySelector('.hw-st-nb');
+      if (!nb) return;
+      var depart = null;
+      function pas(ts) {
+        if (!enMarche) return;
+        if (!depart) depart = ts;
+        var f = Math.min(1, (ts - depart) / 700);
+        nb.textContent = String(Math.round(312 * (1 - Math.pow(1 - f, 3))));
+        if (f < 1) requestAnimationFrame(pas);
+      }
+      requestAnimationFrame(pas);
+    });
+
+    /* ── ACTE 3 : ecrire a ton specialiste ── */
+    apres(25000, function () { curseur.classList.add('est-visible'); bouge(btnEcrire); });
+    apres(25950, function () { presse(btnEcrire); });
+    apres(26200, function () {
+      curseur.classList.remove('est-visible');
+      transition(function () { vue(vueChat, 'Mon spécialiste'); actif(7); });
+    });
+    var revChat = vueChat.querySelectorAll('.hw-rev');
+    apres(26900, function () { if (revChat[0]) revChat[0].classList.add('est-la'); });
+    var j = 0;
+    apres(27100, function () {
+      (function tic2() {
+        if (!enMarche) return;
+        tape2.textContent = TEXTE2.slice(0, ++j);
+        if (j < TEXTE2.length) minuteries.push(window.setTimeout(tic2, (30 + Math.random() * 40) * TEMPO));
+        else { var c2 = vueChat.querySelector('.hw-caret'); if (c2) c2.classList.add('est-fini'); }
+      })();
+    });
+    apres(29800, function () { if (revChat[1]) revChat[1].classList.add('est-la'); });
+    apres(31600, function () {
+      if (revChat[1]) revChat[1].classList.remove('est-la');
+      if (revChat[2]) revChat[2].classList.add('est-la');
+    });
+    apres(32200, function () { if (revChat[3]) revChat[3].classList.add('est-la'); });
+    apres(33300, function () { if (revChat[4]) revChat[4].classList.add('est-la'); });
+    apres(34100, function () { if (revChat[5]) revChat[5].classList.add('est-la'); });
+
+    /* ── retour au debut ── */
+    apres(38400, function () { contenu.classList.add('est-efface'); });
+    apres(39000, function () { scenario(); });
+  }
+
+  function demarrer() { if (enMarche) return; enMarche = true; scenario(); }
+  function arreter() { enMarche = false; toutAnnuler(); }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { if (e.isIntersecting) demarrer(); else arreter(); });
+    }, { threshold: 0.2 }).observe(fen);
+  } else {
+    demarrer();
+  }
+
+  /* Le tilt 3D est PARTI (Louis, 21 août : « 3D » voulait dire look high-tech, pas une fenêtre qui penche). */
+})();
+</script>
+<style>
+  /* Embedded HamacWeb product film: preserve the reference interface and its original JS, while cropping its standalone page chrome. */
+  html,body{width:100%;height:100%;overflow:hidden!important;background:#050906!important;}
+  #h-hero{height:100vh;min-height:0!important;background:#050906!important;}
+  #h-hero>.hw-banniere,#h-hero>.hw-nav,#h-hero>.hw-entete{display:none!important;}
+  #h-hero .hw-scene{height:100vh!important;min-height:0!important;max-width:none!important;padding:0!important;}
+  #h-hero .hw-scene::before{top:0!important;width:100%!important;height:100%!important;filter:blur(48px)!important;}
+  #h-hero .hw-fenetre{top:8px!important;width:min(1180px,94%)!important;height:calc(100vh - 16px)!important;}
+  @media (max-width:900px){#h-hero .hw-fenetre{top:0!important;width:100%!important;height:100vh!important;border-radius:0!important;}}
+</style>
+</body>
+</html>

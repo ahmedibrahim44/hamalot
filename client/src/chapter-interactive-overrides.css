@@ -1,0 +1,76 @@
+/* HamacWeb / CHAPITRE 01: ivory editorial field with five independent, colorful site studies. */
+/* Global accent adjustment: dark pistachio glass replaces the original flat neon. */
+body .hb-site {
+  --b-lime: #90a964;
+  --b-lime-light: #ceda94;
+  --b-lime-deep: #536f42;
+  --b-accent-gradient: linear-gradient(112deg, #4c6a3e 0%, #7e9a58 35%, #cbdc91 51%, #91ab63 67%, #516f42 100%);
+}
+
+.hb-site .hb-hero-copy h1 em,
+.hb-site .hb-hero-copy h1 span,
+.hb-site .hb-section-head h2 em,
+.hb-site .hb-section-head h2 span,
+.hb-site .hb-access-main h2 span,
+.hb-site .hb-chapter-interactive h2 em {
+  background: var(--b-accent-gradient);
+  background-size: 230% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 0 18px rgba(171, 197, 107, .12);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hb-site .hb-hero-copy h1 em,
+  .hb-site .hb-hero-copy h1 span,
+  .hb-site .hb-section-head h2 em,
+  .hb-site .hb-section-head h2 span,
+  .hb-site .hb-access-main h2 span,
+  .hb-site .hb-chapter-interactive h2 em {
+    animation: hbPistachioGlass 6.8s cubic-bezier(.45, .05, .55, .95) infinite;
+  }
+}
+
+@keyframes hbPistachioGlass {
+  0%, 100% { background-position: 100% 50%; }
+  50% { background-position: 0% 50%; }
+}
+
+.hb-chapter-card img {
+  animation: hbChapterMediaDrift 13s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.hb-chapter-card:nth-child(2) img { animation-delay: -3s; }
+.hb-chapter-card:nth-child(3) img { animation-delay: -7s; }
+.hb-chapter-card:nth-child(4) img { animation-delay: -5s; }
+.hb-chapter-card:nth-child(5) img { animation-delay: -9s; }
+
+@media (min-width: 901px) {
+  .hb-chapter-card-1 { right: -3%; top: 4%; width: 35vw; height: 19.7vw; min-width: 410px; min-height: 230px; }
+  .hb-chapter-card-2 { right: 13%; bottom: -10%; }
+  .hb-chapter-card-3 { bottom: -19%; }
+  .hb-chapter-card-4 { right: 37%; top: -13%; }
+  .hb-chapter-card-5 { right: -4%; bottom: 29%; width: 21vw; height: 11.8vw; min-width: 250px; min-height: 142px; }
+  .hb-chapter-veil {
+    background:
+      linear-gradient(90deg, rgba(243, 242, 237, .99) 0%, rgba(243, 242, 237, .94) 43%, rgba(243, 242, 237, .34) 73%, rgba(243, 242, 237, .10)),
+      linear-gradient(0deg, rgba(243, 242, 237, .55), transparent 42%);
+  }
+}
+
+.hb-chapter-sweep { animation: hbChapterSweep 8s ease-in-out infinite; }
+
+@keyframes hbChapterMediaDrift {
+  from { transform: scale(1.02) translate3d(-1%, -.5%, 0); }
+  to { transform: scale(1.10) translate3d(1.4%, .8%, 0); }
+}
+
+@keyframes hbChapterSweep {
+  50% { opacity: .28; transform: rotate(-22deg) translateX(-6%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-chapter-card img, .hb-chapter-sweep { animation: none !important; }
+}

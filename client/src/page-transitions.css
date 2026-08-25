@@ -1,0 +1,13 @@
+/* Shared route entrance: a short editorial handoff without delaying navigation. */
+.hb-page-transition {
+  animation: hbPageEnter 380ms cubic-bezier(.23, 1, .32, 1) both;
+}
+
+@keyframes hbPageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-page-transition { animation: none; }
+}

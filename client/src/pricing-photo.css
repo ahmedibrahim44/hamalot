@@ -1,0 +1,37 @@
+/* HamacWeb pricing: real editorial studio photograph under a protected high-contrast offer card. */
+body .hb-site .hb-price-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #f4f4f0;
+  background-color: #0a100d;
+  background-image:
+    linear-gradient(112deg, rgba(5, 12, 9, .98) 0%, rgba(7, 18, 12, .92) 44%, rgba(6, 16, 11, .62) 74%, rgba(6, 16, 11, .46) 100%),
+    url("/assets/hamacweb-early-user-studio.jpg");
+  background-position: center, 67% center;
+  background-size: cover;
+  box-shadow: 18px 18px 0 var(--b-lime-deep);
+}
+
+body .hb-site .hb-price-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(219, 235, 165, .1), transparent 34%, rgba(0, 0, 0, .15));
+  content: "";
+}
+
+body .hb-site .hb-price-card > span { color: var(--b-lime-light); }
+body .hb-site .hb-price-card > div { border-bottom-color: rgba(244, 244, 240, .2); }
+body .hb-site .hb-price-card > p { color: rgba(244, 244, 240, .78); }
+body .hb-site .hb-price-card li { color: rgba(244, 244, 240, .88); }
+body .hb-site .hb-price-card li svg { color: var(--b-lime-light); }
+body .hb-site .hb-price-card .hb-btn-primary {
+  border: 1px solid rgba(244, 244, 240, .18);
+  background: var(--b-accent-gradient);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .25), 0 10px 24px rgba(0, 0, 0, .18);
+}
+
+@media (max-width: 640px) {
+  body .hb-site .hb-price-card { background-position: center, 73% center; box-shadow: 11px 11px 0 var(--b-lime-deep); }
+}
